@@ -1,3 +1,10 @@
 body {
-  background-color: green;
+  font-family: 'Comme', sans-serif;
+font-family: 'Foldit', cursive;
+font-family: 'Poppins', sans-serif;
+background-color: rgb(6, 18, 37, 0.5);
+}
+h1 {
+  font-family: 'Poppins', sans-serif;
+  color: white;
 }

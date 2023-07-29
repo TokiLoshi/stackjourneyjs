@@ -10,6 +10,9 @@
 <!--Icons from Font Awesome-->
 <script src="https://kit.fontawesome.com/a56b22975c.js" crossorigin="anonymous"></script>
 <link href="/static/styles.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comme:wght@100;200&family=Foldit:wght@500&family=Poppins:wght@200;400&display=swap" rel="stylesheet">
 <body>
   <!-- <nav class="bg-dark border navbar navbar-expand-md navbar-dark border-0" style="background-color: #6f42c1;"> -->
     <nav class="bg navbar navbar-expand-md border-0" style="background-color:  rgb(6, 18, 37);">
@@ -30,7 +33,41 @@
     </div>
 </nav>
 
-Dashboard Page
+<h1 class="text-center mt-3">🚀 Your Dashboard 🚀</h1>
+<div class="d-flex justify-content-center">
+  <div class="d-flex justify-content-center">
+    <form style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow">
+      <h3 class="text-center">Quiz of the day</h3>
+      <div class="d-flex justify-content-center">
+      <img class="img-fluid text-center rounded shadow mb-3" src="static/owl.jpg" style="height: 200px; width: auto;">  
+    </div>
+
+      <div class="mb-3">
+      <select class="form-select" aria-label="Default select example">
+        <option selected>Pick a topic, choose your own adventure</option>
+        <option value="oop">OOP</option>
+        <option value="callbacks">Callbacks</option>
+        <option value="closures">Closures</option>
+        <option value="recursion">Recursion</option>
+        <option value="async">Asynchronous</option>
+      </select>
+    </div>
+    <div id="difficulty level" class="form-text text-center mb-2" style="color: white;">Up for a challenge?</div>
+    <div class="mb-3">
+      <select class="form-select" aria-label="Default select example">
+        <option selected>Choose your level of difficulty</option>
+        <option value="easy">Easy</option>
+        <option value="moderate">Moderate</option>
+        <option value="difficult">Difficult</option>
+      </select>
+    </div>
+    <div id="difficulty level" class="form-text text-center mb-2" style="color: white;">Alright! 🙌</div>
+    <div class="d-flex justify-content-center">
+
+      <button type="submit" class="btn btn-light">Test my knowledge</button>
+    </div>
+    </form>
+    </div>
 
 <Footer class="bg border-0 fixed-bottom p-3 border-0 mx-auto mt-2 w-100" style="background-color:  rgb(6, 18, 37); text-align : center;">
     <p class="text-align-center mt-2" id="pyfooter" style="text-align:center; color: #FFFFFF;">Want your own version? Feel free to fork this project on <a href="https://github.com/TokiLoshi/stackjourneyjs" target="_blank"><i class="fa-brands white fa-github fa-2x" style="color: #FFFFFF"></i></a></p>
