@@ -34,26 +34,21 @@
 </nav>
 
 <h1 class="text-center">Add a concept</h1>
-<div class="d-flex justify-content-center">
-  <img class="img-fluid text-center rounded shadow mb-3" src="static/owl.jpg" style="height: 200px; width: auto;">  
-</div>
-<div class="d-flex justify-content-center">
-  <form style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow" method="post" action="https://sheetdb.io/api/v1/78uve0w4nrmgo">
-    <div class="mb-3">
-      <label for="username" class="form-label">Username</label>
-      <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-      <div id="emailHelp" class="form-text" style="color: white;">Pick anything you like. Feel free to get creative!</div>
+
+<div class="d-flex justify-content-center mb-3">
+  <form style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow mb-3" method="post" action="https://sheetdb.io/api/v1/78uve0w4nrmgo">
+    <div id="difficulty level" class="form-text text-center mb-2" style="color: white;">Adding a new concept? Youre the GOAT!</div>
+    <div class="d-flex justify-content-center">
+      <img class="img-fluid text-center rounded shadow mb-3" src="static/goat.jpg" style="height: 200px; width: auto;">  
     </div>
     <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input type="text" name="password" class="form-control" id="exampleInputPassword1">
-    </div>
-    <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+      <label for="username" class="form-label">What's your name?</label>
+      <input type="text" name="username" class="form-control" id="username" aria-describedby="usernameHelp">
+      <div id="usernameHelp" class="form-text" style="color: white;">Kudos to you!</div>
     </div>
     <div class="mb-3">
-      <select class="form-select" aria-label="Default select example">
+      <p class="ms-2">Topic</p>
+      <select class="form-select" aria-label="Default select example" name="category">
         <option selected>What topic would you like to cover?</option>
         <option value="oop">OOP</option>
         <option value="callbacks">Callbacks</option>
@@ -62,10 +57,58 @@
         <option value="async">Asynchronous</option>
       </select>
       </div>
-    <button type="submit" class="btn btn-light">Submit</button>
+      <div class="mb-3">
+        <p class="ms-2">Difficulty</p>
+        <select class="form-select" aria-label="Default select example" name="difficulty">
+          <option selected>How difficult is the concept?</option>
+          <option value="easy">Easy</option>
+          <option value="moderate">Moderate</option>
+          <option value="difficult">Difficult</option>
+        </select>
+        </div>
+        <div class="mb-3">
+          <label for="question" class="form-label">Question</label>
+          <input type="text" name="question" class="form-control" id="question" aria-describedby="questionHelp">
+          <div id="questionHelp" class="form-text" style="color: white;">Use your best technical communication.</div>
+        </div>
+        <div class="mb-3">
+          <label for="option1" class="form-label">Option 1</label>
+          <input type="text" name="option1" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <div id="emailHelp" class="form-text" style="color: white;">Pick anything you like. Feel free to get creative!</div>
+        </div>
+        <div class="mb-3">
+          <label for="option2" class="form-label">Option 2</label>
+          <input type="text" name="option2" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <div id="emailHelp" class="form-text" style="color: white;">Pick anything you like. Feel free to get creative!</div>
+        </div>
+        <div class="mb-3">
+          <label for="option3" class="form-label">Option 3</label>
+          <input type="text" name="option3" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <div id="emailHelp" class="form-text" style="color: white;">Pick anything you like. Feel free to get creative!</div>
+        </div>
+        <div class="mb-3">
+          <label for="option4" class="form-label">Option 4</label>
+          <input type="text" name="option4" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <div id="emailHelp" class="form-text" style="color: white;">Pick anything you like. Feel free to get creative!</div>
+        </div>
+        <div class="mb-3">
+          <select class="form-select" aria-label="Default select example" name="correctAnswer">
+            <option selected>Correct answer?</option>
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+            <option value="option4">Option 4</option>
+          </select>
+    <div class="d-flex justify-content-center mb-3 mt-3">
+      <button type="submit" class="btn btn-light">Submit</button>
+    </div>
+   
   </form>
-  </div>
+</div>
+</div>
+<div class="mb-3" style="height: 100px;">
 
+</div>
 <Footer class="bg border-0 fixed-bottom p-3 border-0 mx-auto mt-2 w-100" style="background-color: rgb(6, 18, 37); text-align : center;">
     <p class="text-align-center mt-2" id="pyfooter" style="text-align:center; color: #FFFFFF;">Want your own version? Feel free to fork this project on <a href="https://github.com/TokiLoshi/stackjourneyjs" target="_blank"><i class="fa-brands white fa-github fa-2x" style="color: #FFFFFF"></i></a></p>
 </Footer>
