@@ -1,37 +1,70 @@
-const http = require('http');
-const EventEmitter = require('events');
-const eventEmitter = new EventEmitter();
-eventEmitter.on('start', number => {
-  console.log(`started ${number}`)
+// const http = require('http');
+// const EventEmitter = require('events');
+// const eventEmitter = new EventEmitter();
+// eventEmitter.on('start', number => {
+//   console.log(`started ${number}`)
+// })
+// eventEmitter.emit('start', 23);
+
+
+// const hostname = '127.0.0.1'
+// const port = 3000
+
+// const server = http.createServer((req, res) => {
+//   res.statusCode = 200;
+//   res.setHeader('ContentType', 'text/plain')
+//   res.end('Hello World this is StackJourney');
+// });
+
+// server.listen(port, hostname, () => {
+//   console.log(`Server running at http://${hostname}:${port}/`)
+// })
+
+// const express = require('express');
+// const app = express();
+// app.get('/', function (req, res){
+//   res.send("Express says hello! There")
+// })
+// app.get('/', (req, res) => {
+//   readFile('/index.html', 'utf8', (err, html) => {
+//     if (err) {
+//       res.status(500).send('Sorry something seems to be out of order')
+//     }
+//     res.send(html)
+//   })
+// });
+
+// app.listen(process.env.PORT || 3000, () => console.log(`App available on http://127.0.0.1:3000/`))
+
+// app.get('', (req, res) => {
+//   res.status(500).json({ message: "Error"})
+// })
+
+const express = require("express")
+const app = express()
+app.set('view engine', 'ejs')
+
+app.get("/", (req, res) => {
+  console.log("Here")
+  res.render("index", {text: "Hello World",
+moreText : "Does more text work?"})
 })
-eventEmitter.emit('start', 23);
+
+const userRouter = require('./routes/users')
+const aboutRouter = require('./routes/about')
+const dashboardRouter = require('./routes/dashboard')
+// TODO: 
+// Link this
+const loginRouter = require('./routes/login')
 
 
-const hostname = '127.0.0.1'
-const port = 3000
+app.use('/users', userRouter)
+app.use('/about', aboutRouter)
+// TODO: 
+// Link this
+// app.use('/dashboard', dashboardRouter)
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('ContentType', 'text/plain')
-  res.end('Hello World this is StackJourney');
-});
+// app.use('/login', loginRouter)
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`)
-})
 
-const express = require('express');
-const app = express();
-app.get('/', function (req, res){
-  res.send("Express says hello!")
-})
-app.get('/', (request, response) => {
-  readFile('./index.html', 'utf8', (err, html) => {
-    if (err) {
-      response.status(500).send('Sorry something seems to be out of order')
-    }
-    response.send(html)
-  })
-});
-
-app.listen(process.env.PORT || 3000, () => console.log(`App available on http://127.0.0.1:3000/`))
+app.listen(3000)
