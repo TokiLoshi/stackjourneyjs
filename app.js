@@ -61,6 +61,7 @@ const aboutRouter = require('./routes/about')
 const dashboardRouter = require('./routes/dashboard')
 const conceptRouter = require('./routes/concepts')
 const loginRouter = require('./routes/login')
+const registerRouter = require('./routes/register')
 
 
 app.use('/users', userRouter)
@@ -68,6 +69,7 @@ app.use('/about', aboutRouter)
 app.use('/dashboard', dashboardRouter)
 app.use('/concepts', conceptRouter)
 app.use('/login', loginRouter)
+app.use('/register', registerRouter)
 
 function logger(req, res, next) {
   console.log(req.originalUrl)
