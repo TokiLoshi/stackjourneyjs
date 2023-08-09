@@ -23,7 +23,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav ms-auto mt-2">
-                    <li class="nav-item"><a class="nav-link" href="/about" style="color: #FFFFFF;">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html" style="color: #FFFFFF;">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="/dashboard" style="color: #FFFFFF; text-decoration: underline;">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link" href="/login" style="color: #FFFFFF;">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="/concepts" style="color: #FFFFFF;">Concepts</a></li>
@@ -36,10 +36,10 @@
 <h1 class="text-center mt-3">🚀 Your Dashboard 🚀</h1>
 <div class="d-flex justify-content-center">
   <div class="d-flex justify-content-center">
-    <form style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow">
+    <form id="quizForm" style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow">
       <h3 class="text-center">Quiz of the day</h3>
       <div class="d-flex justify-content-center">
-      <img class="img-fluid text-center rounded shadow mb-3" src="static/owl.jpg" style="height: 200px; width: auto;">  
+      <img class="img-fluid text-center rounded shadow mb-3" src="owl.jpg" style="height: 200px; width: auto;">  
     </div>
 
       <div class="mb-3">
@@ -64,19 +64,85 @@
     <div id="difficulty level" class="form-text text-center mb-2" style="color: white;">Alright! 🙌</div>
     <div class="d-flex justify-content-center">
 
-      <button type="submit" class="btn btn-light">Test my knowledge</button>
+      <button id="getQuestions" type="submit" class="btn btn-light">Test my knowledge</button>
     </div>
     </form>
     </div>
     </div>
-    <div class="d-flex justify-content-center rounded shadow m-3" style="background-color:rgb(6, 18, 37); color: white;" id="knowledge">
-    <h2 class="knowledgeTitle mb-2">Everything from the server</h2>
-
-    </div>
+    <div class="justify-content-center text-center rounded shadow m-3" style="background-color:rgb(6, 18, 37); color: white;" id="knowledge">
+      <h2 class="knowledgeTitle">Choose your own adventure</h2>
+      
+      <!-- <p>When you select the questions you want to study your options will be displayed below</p> -->
+    </br>
+      <div id="dataContainer" class="m-2"></div>
+  
+      </div>
+      <div class="modal-body">
+        <h2 class="fs-5">Popover in a modal</h2>
+        <p>This <button class="btn btn-secondary" data-bs-toggle="popover" title="Popover title" data-bs-content="Popover body content is set in this attribute.">button</button> triggers a popover on click.</p>
+        <hr>
+        <h2 class="fs-5">Tooltips in a modal</h2>
+        <p><a href="#" data-bs-toggle="tooltip" title="Tooltip">This link</a> and <a href="#" data-bs-toggle="tooltip" title="Tooltip">that link</a> have tooltips on hover.</p>
+      </div>
+   
 
 <Footer class="bg border-0 fixed-bottom p-3 border-0 mx-auto mt-2 w-100" style="background-color:  rgb(6, 18, 37); text-align : center;">
     <p class="text-align-center mt-2" id="pyfooter" style="text-align:center; color: #FFFFFF;">Want your own version? Feel free to fork this project on <a href="https://github.com/TokiLoshi/stackjourneyjs" target="_blank"><i class="fa-brands white fa-github fa-2x" style="color: #FFFFFF"></i></a></p>
 </Footer>
+<script>
+  let counter = 0
+  const onlyOnce = document.getElementById('getQuestions')
+  const container = document.getElementById('dataContainer')
+  onlyOnce.addEventListener('submit', () => {
+      counter++
+      if (counter > 1){
+        container.textContent = "Loading more questions"
+      }
+  });
+  const form = document.getElementById('quizForm');
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch('https://sheetdb.io/api/v1/78uve0w4nrmgo')
+      const data = await response.json()
+      console.log(data.id)
+      const userData = []
+      const username = "poppy"
+      if (data.includes(username)){
+        userData.push(data.username)
+        console.log(userData)
+      }
+      data.forEach((row, index) => {
+        console.log(`Row number: ${index}`)
+        const paragraph = document.createElement('p')
+        const button = document.createElement('button')
+
+        paragraph.setAttribute('style', 'display: block;')
+        paragraph.setAttribute('class', 'mb-2')
+        paragraph.textContent = JSON.stringify(row.question)
+
+        button.setAttribute('class', 'btn btn-light ms-4 mb-2')
+        button.setAttribute('id', index + 1)
+        button.textContent = "Try"
+
+        button.addEventListener('click', () => {
+          alert(button.id)
+        })
+
+        container.appendChild(paragraph)
+        paragraph.appendChild(button)
+     
+      })
+    }
+    catch (error){
+      console.log('Error fetching data: ', error)
+    }
+  });
+
+  function getForm(dataRow){
+
+  }
+</script>
 </body>
 <script src="static/dashboard.js"></script>
 </html>

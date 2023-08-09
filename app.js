@@ -41,8 +41,14 @@
 // })
 
 const express = require("express")
+const fetch = require("cross-fetch")
 const app = express()
+
 app.set('view engine', 'ejs')
+app.use(logger)
+app.use(express.static("public"))
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
 app.get("/", (req, res) => {
   console.log("Here")
@@ -53,16 +59,21 @@ moreText : "Does more text work?"})
 const userRouter = require('./routes/users')
 const aboutRouter = require('./routes/about')
 const dashboardRouter = require('./routes/dashboard')
-// TODO: 
-// Link this
+const conceptRouter = require('./routes/concepts')
 const loginRouter = require('./routes/login')
 
 
 app.use('/users', userRouter)
 app.use('/about', aboutRouter)
-// TODO: 
-// Link this
-// app.use('/dashboard', dashboardRouter)
+app.use('/dashboard', dashboardRouter)
+app.use('/concepts', conceptRouter)
+app.use('/login', loginRouter)
+
+function logger(req, res, next) {
+  console.log(req.originalUrl)
+  next()
+}
+
 
 // app.use('/login', loginRouter)
 

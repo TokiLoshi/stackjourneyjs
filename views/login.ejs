@@ -23,7 +23,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav ms-auto mt-2">
-                    <li class="nav-item"><a class="nav-link" href="/about" style="color: #FFFFFF;">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html" style="color: #FFFFFF;">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="/dashboard" style="color: #FFFFFF;">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link" href="/login" style="color: #FFFFFF; text-decoration : underline;">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="/concepts" style="color: #FFFFFF;">Concepts</a></li>
@@ -34,19 +34,19 @@
 </nav>
 <h1 class="text-center">Login</h1>
 <div class="d-flex justify-content-center">
-  <form style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow" method="post" action="https://sheetdb.io/api/v1/78uve0w4nrmgo">
+  <form style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow" method="post" action="https://sheetdb.io/api/v1/78uve0w4nrmgo?sheet=users">
     <div class="mb-3">
       <label for="username" class="form-label">Username</label>
-      <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="hi 👋">
       <div id="emailHelp" class="form-text" style="color: white;">Pick anything you like. Feel free to get creative!</div>
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>
-      <input type="text" name="password" class="form-control" id="exampleInputPassword1">
+      <input type="password" name="password" class="form-control" id="exampleInputPassword1" type="password" placeholder="pick a magic word">
     </div>
     <div class="mb-3 form-check">
       <input type="checkbox" class="form-check-input" id="exampleCheck1">
-      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+      <label class="form-check-label" for="exampleCheck1">I understand this is a hobby project</label>
     </div>
     <button type="submit" class="btn btn-light">Submit</button>
   </form>
