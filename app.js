@@ -3,9 +3,12 @@ const fetch = require("cross-fetch")
 const path = require("path")
 const app = express()
 const bcrypt = require('bcrypt')
+const _ = require('lodash')
 
 function logger(req, res, next) {
   console.log(req.originalUrl)
+  const num = _.random(0, 20);
+  console.log("Num: ", num)
   next()
 }
 
