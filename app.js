@@ -2,6 +2,7 @@ const express = require("express")
 const fetch = require("cross-fetch")
 const path = require("path")
 const app = express()
+const bcrypt = require('bcrypt')
 
 function logger(req, res, next) {
   console.log(req.originalUrl)
@@ -34,7 +35,9 @@ app.use('/register', registerRouter)
 
 app.get("/", (req, res) => {
   console.log("Here")
+  console.log(`Here we have: ${users}`)
   res.render("index", {text: "Hello World",
+  
 moreText : "Does more text work?"})
 })
 

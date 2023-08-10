@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "node app.js",
+    "start": "node app.js",
     "devStart": "nodemon app.js"
   },
   "repository": {
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/TokiLoshi/stackjourneyjs#readme",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "cross-fetch": "^4.0.0",
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
