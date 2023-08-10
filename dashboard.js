@@ -5,6 +5,7 @@ const fetch = require("cross-fetch")
 dashboardRouter.get('/', (req, res) => {
   console.log("Getting dashboard")
   res.render("dashboard")
+  send("Hi")
 })
 
 module.exports = dashboardRouter
