@@ -6,6 +6,8 @@ loginRouter.get('/', (req, res) => {
   res.render("login")
 })
 
+console.log("HI")
+
 loginRouter.route('/:id')
 .get((req, res) => {
   console.log(req.user)
@@ -28,5 +30,7 @@ loginRouter.param("id", (req, res, next, id) => {
   req.user = users[id]
   next()
 })
+
+
 
 module.exports = loginRouter

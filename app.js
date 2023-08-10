@@ -7,8 +7,8 @@ const _ = require('lodash')
 
 function logger(req, res, next) {
   console.log(req.originalUrl)
-  const num = _.random(0, 20);
-  console.log("Num: ", num)
+  // const num = _.random(0, 20);
+  // console.log("Num: ", num)
   next()
 }
 

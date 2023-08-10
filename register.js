@@ -5,8 +5,9 @@ const users = []
 
 registerRouter.get('/', (req, res) => {
   console.log("Getting Registration")
+
   res.render("register")
-  res.json(users)
+ 
 })
 
 

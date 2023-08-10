@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1", width="device-width">
-  </head>
+  <%- include('./partials/head.ejs') %>
   <!--Bootstrap https://getbootstrap.com/docs/5.3/getting-started/download/-->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
@@ -13,32 +10,71 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Comme:wght@100;200&family=Foldit:wght@500&family=Poppins:wght@200;400&display=swap" rel="stylesheet">
+<!-- The emoji graphics are from the open-source project Twemoji. The graphics are copyrighted 2020 Twitter, Inc, and other contributors. -->
+    <!-- Emoji created by John Sorrentino and is available: https://favicon.io/emoji-favicons/shuffle-tracks-button/ -->
+    <!-- License: https://creativecommons.org/licenses/by/4.0/ -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
 <body>
-  <!-- <nav class="bg-dark border navbar navbar-expand-md navbar-dark border-0" style="background-color: #6f42c1;"> -->
-    <nav class="bg navbar navbar-expand-md border-0" style="background-color:  rgb(6, 18, 37);">
-    <div class="container-fluid">
-        <a class="navbar-brand mr-3" style="color: #FFFFFF;" href="index.html"><i class="fa-brands fa-node-js w-25" style="color: #ffffff;"></i>StackJourneyJS</a>
-        <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar" data-bs-toggle="collapse" type="button">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbar">
-                <ul class="navbar-nav ms-auto mt-2">
-                    <li class="nav-item"><a class="nav-link" href="about.html" style="color: #FFFFFF;">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/dashboard" style="color: #FFFFFF; text-decoration: underline;">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/concepts" style="color: #FFFFFF;">Concepts</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/login" style="color: #FFFFFF;">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/register" style="color: #FFFFFF;">Register</a></li>
-                </ul>
-
-        </div>
-    </div>
-</nav>
+ <%- include('./partials/nav.ejs') %>
 
 <h1 class="text-center mt-3">🚀 Your Dashboard 🚀</h1>
+<div class="justify-content-center text-center rounded shadow p-3 m-2" style="background-color:rgb(6, 18, 37); color: white;">
+  <h1 class="title">Your Stats</h1>
+
+  <% if (questions.length > 4) { %>
+    <% questions.forEach(question => { %>
+      <h3 style="color: green"><%= question %></h3>
+    <% }) %>
+  <% } else { %>
+    <p>Nothing to see here</p>
+  <% } %>
+
+
+  <div class="grid text-center" style="--bs-gap: .25rem 1rem;">
+    <div class="snippet"><b>Total Questions asked: </b> <%= questions %> </div>
+    <div class="g-col-6"><b>Total Questions answered:</b> 0</div>
+  
+    <div class="g-col-6">Current Score: 0</div>
+    <div class="g-col-6">Average Score: 0</div>
+
+
+
+</div>
+<hr>
+<h3>Quiz of the Day</h3>
+<div class="d-flex justify-content-center">
+
+  <form style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow" method="post" action="https://sheetdb.io/api/v1/78uve0w4nrmgo?sheet=users">
+    <div class="mb-3">
+      <p>Question will go here</p>
+    </div>
+    <label>Choose the correct answer</label>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="option1">
+      <label class="form-check-label" for="exampleCheck1">Placeholder for one</label>
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="option2">
+      <label class="form-check-label" for="exampleCheck1">Another placeholder</label>
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="option3">
+      <label class="form-check-label" for="exampleCheck1">Yet another</label>
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="option4">
+      <label class="form-check-label" for="exampleCheck1">Last One</label>
+    </div>
+    <button type="submit" class="btn btn-light">Submit</button>
+  </form>
+  </div>
+</div>
 <div class="d-flex justify-content-center">
   <div class="d-flex justify-content-center">
     <form id="quizForm" style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow">
-      <h3 class="text-center">Quiz of the day</h3>
+      <h3 class="text-center">Get More Practice</h3>
       <div class="d-flex justify-content-center">
       <img class="img-fluid text-center rounded shadow mb-3" src="owl.jpg" style="height: 200px; width: auto;">  
     </div>
@@ -85,11 +121,9 @@
         <h2 class="fs-5">Tooltips in a modal</h2>
         <p><a href="#" data-bs-toggle="tooltip" title="Tooltip">This link</a> and <a href="#" data-bs-toggle="tooltip" title="Tooltip">that link</a> have tooltips on hover.</p>
       </div>
-   
 
-<Footer class="bg border-0 fixed-bottom p-3 border-0 mx-auto mt-2 w-100" style="background-color:  rgb(6, 18, 37); text-align : center;">
-    <p class="text-align-center mt-2" id="pyfooter" style="text-align:center; color: #FFFFFF;">Want your own version? Feel free to fork this project on <a href="https://github.com/TokiLoshi/stackjourneyjs" target="_blank"><i class="fa-brands white fa-github fa-2x" style="color: #FFFFFF"></i></a></p>
-</Footer>
+<%- include('./partials/footer.ejs') %>
+
 <script>
   let counter = 0
   const onlyOnce = document.getElementById('getQuestions')
