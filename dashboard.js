@@ -23,4 +23,15 @@ dashboardRouter.get('/', async (req, res) => {
 
 })
 
+// this can be exported as an object with multiple methods
+// e.g blog_index, blog_create_get, blog_create_post which are all functions
+// const blog_delete = (req, res) => {
+  // const id = req.params.id
+  // Blog.findByIdAndDelete(id)
+  // .then(result => {
+  //   res.json({ redirect: '/blogs' });
+  // })
+  // .catch(err => {
+  //   console.log(err)
+  // })
 module.exports = dashboardRouter

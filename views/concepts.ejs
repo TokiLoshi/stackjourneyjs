@@ -22,7 +22,7 @@
 <h1 class="text-center">Add a concept</h1>
 
 <div class="d-flex justify-content-center mb-3">
-  <form style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow mb-3" method="post" action="https://sheetdb.io/api/v1/78uve0w4nrmgo">
+  <form name="concepts" style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow mb-3" method="POST" action="https://sheetdb.io/api/v1/78uve0w4nrmgo">
     <div id="difficulty level" class="form-text text-center mb-2" style="color: white;">Adding a new concept? Youre the GOAT!</div>
     <div class="d-flex justify-content-center">
       <img class="img-fluid text-center rounded shadow mb-3" src="goat.jpg" style="height: 200px; width: auto;">  
@@ -96,5 +96,22 @@
 
 </div>
 <%- include('./partials/footer.ejs') %>
+<script src="static/concepts.js">
+  // TO : DO Will likely need to change the form route to get it here
+  // Parse it here and then send it to post, this way we 
+  // can also change the route and see how the page reloads
+  let concepts = document.getElementById('concepts')
+  concepts.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    try {
+      console.log('Trying to do this')
+    }
+    catch(error) {
+      console.log(`We got an error: ${error}`)
+    }
+    console.log('This is running')
+    alert('This shouldn\'t reload')
+  })
+</script>
 </body>
 </html>

@@ -19,6 +19,11 @@
 <body>
   <%- include('./partials/nav.ejs') %>
 <h1 class="text-center">Login</h1>
+
+<% if (messages.error) { %>
+  <%= messages.error %>
+  <% } %>
+
 <div class="d-flex justify-content-center">
   <form style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow" method="post" action="https://sheetdb.io/api/v1/78uve0w4nrmgo?sheet=users">
     <div class="mb-3">

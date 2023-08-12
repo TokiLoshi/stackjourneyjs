@@ -20,7 +20,8 @@
 <%- include('./partials/nav.ejs') %>
 <h1 class="text-center">Register</h1>
 <div class="d-flex justify-content-center">
-  <form style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow" method="post" action="https://sheetdb.io/api/v1/78uve0w4nrmgo?sheet=users">
+  <!-- <form style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow" method="post" action="https://sheetdb.io/api/v1/78uve0w4nrmgo?sheet=users"> -->
+    <form style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow" method="POST" action="/register">
     <div class="mb-3">
       <label for="username" class="form-label">Username</label>
       <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="hi 👋">
@@ -35,15 +36,18 @@
       <input type="password" name="confirmation" class="form-control" id="exampleInputPassword1" type="password" placeholder="pick a magic word">
     </div>
     <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <input type="checkbox" class="form-check-input" id="Check1">
       <label class="form-check-label" for="exampleCheck1">I understand this is a hobby project</label>
     </div>
-    <button type="submit" class="btn btn-light">Submit</button>
+    <button type="submit" class="btn btn-light" id="register-button">Submit</button>
   </form>
   </div>
   <p class="mt-2 text-center" style="color: white;">If you already have an account <a href="/login" style="color: white;">click here to login</a></p>
-  
+
 
 <%- include('./partials/footer.ejs') %>
 </body>
+<!-- <script src="/static/register.js">
+  console.log(document.getElementById('name').value)
+</script> -->
 </html>
