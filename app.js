@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV !== 'production'){
-  require('dotenv').config
+  require('dotenv').config()
 }
 // TODO:
   // Update Heroku with secret key and env variables so it can be used in production
@@ -31,6 +31,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.use(flash())
+
+
+let sess = {
+  secret : process.env.SESSION_SECRET, 
+  resave : false, 
+  saveUninitialized: false,
+  cookie: {}
+}
 
 if (app.get('env') === 'production'){
   app.set('trust proxy', 1)
@@ -43,10 +52,6 @@ app.use(session({
   saveUnititialized: false,
   cookie: {secure : true}
 }))
-
-app.use(passport.initialize())
-app.use(passport.session)
-app.use(session(sess))
 
 // Routes
 const userRouter = require('./users')
@@ -63,7 +68,8 @@ app.use('/dashboard', dashboardRouter)
 app.use('/concepts', conceptRouter)
 app.use('/login', loginRouter)
 app.use('/register', registerRouter)
-
+app.use(passport.initialize())
+app.use(passport.session())
 
 
 app.post('/login', passport.authenticate('local', {

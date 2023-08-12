@@ -1,9 +1,10 @@
 const express = require('express')
 const loginRouter = express.Router()
+const flash = require('express-flash')
 
 loginRouter.get('/', (req, res) => {
   console.log("Getting login")
-  res.render("login")
+  res.render("login", {messages : req.flash()})
 })
 
 console.log("HI")

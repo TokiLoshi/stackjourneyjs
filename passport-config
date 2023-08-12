@@ -22,9 +22,14 @@ function initialize(passport, getUserByUsername){
     }
   }
 
-  passport.use(new LocalStrategy( { usernameField: 'username'}, authenticateUser), )
-  passport.serializeUser((user, done) => {})
-  passport.deserializeUser((id, done) => {})
+  passport.use(new LocalStrategy( { usernameField: 'username'}, authenticateUser))
+  passport.serializeUser((user, done) => {
+    done(null, user.id)
+  })
+  passport.deserializeUser((id, done) => {
+    const user = findById(id);
+    done(null, user)
+  })
 
 }
 
