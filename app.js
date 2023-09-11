@@ -34,11 +34,15 @@ app.use(express.json())
 app.use(flash())
 
 
-let sess = {
+let sessionConfig = {
   secret : process.env.SESSION_SECRET, 
-  resave : false, 
-  saveUninitialized: false,
-  cookie: {}
+  resave: false,
+  saveUninitialized: true, 
+  cookie: {
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  }
 }
 
 if (app.get('env') === 'production'){
@@ -46,12 +50,7 @@ if (app.get('env') === 'production'){
   sess.cookie.secure = true
 }
 
-app.use(session({
-  secret : process.env.SESSION_SECRET, 
-  resave : false,
-  saveUnititialized: false,
-  cookie: {secure : true}
-}))
+app.use(session(sessionConfig))
 
 // Routes
 const userRouter = require('./users')
