@@ -55,11 +55,11 @@ app.use(session({
 
 // Routes
 const userRouter = require('./users')
-const aboutRouter = require('./about')
-const dashboardRouter = require('./dashboard')
-const conceptRouter = require('./concepts')
-const loginRouter = require('./login')
-const registerRouter = require('./register')
+const aboutRouter = require('./routes/about')
+const dashboardRouter = require('./routes/dashboard')
+const conceptRouter = require('./routes/concepts')
+const loginRouter = require('./routes/login')
+const registerRouter = require('./routes/register')
 
 
 app.use('/users', userRouter)
