@@ -17,15 +17,13 @@ const flash = require('express-flash')
 const session = require('express-session')
 
 
-initializePassport(passport, email => {
-  users.find(user => user.email === email)
+initializePassport(passport, username => {
+  users.find(user => user.username === email)
 })
 
 app.set('view engine', 'ejs')
-app.set('trust proxy', 1)
 
 // Middleware & static files
-// Logs HTTP requests to the console
 app.use(morgan('tiny'))
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')))
@@ -40,25 +38,30 @@ let sessionConfig = {
   saveUninitialized: true, 
   cookie: {
     httpOnly: true,
+    secure: false,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   }
 }
 
+if(!process.env.SESSION_SECRET) {
+  console.log('SESSION_SECRET is not set')
+}
+
 if (app.get('env') === 'production'){
   app.set('trust proxy', 1)
-  sess.cookie.secure = true
+  sessionConfig.cookie.secure = true;
 }
 
 app.use(session(sessionConfig))
 
 // Routes
 const userRouter = require('./users')
-const aboutRouter = require('./routes/about')
-const dashboardRouter = require('./routes/dashboard')
-const conceptRouter = require('./routes/concepts')
-const loginRouter = require('./routes/login')
-const registerRouter = require('./routes/register')
+const aboutRouter = require('./about')
+const dashboardRouter = require('./dashboard')
+const conceptRouter = require('./concepts')
+const loginRouter = require('./login')
+const registerRouter = require('./register')
 
 
 app.use('/users', userRouter)
