@@ -11,22 +11,6 @@ registerRouter.get('/', (req, res) => {
  
 })
 
-// registerRouter.post('/', (req, res, next) => {
-//   console.log("We have a post request")
-//   console.log(req)
-//   const username = req.body.username
-//   const password = req.body.password
-//   const confirmation = req.body.confirmation
-//   console.log(username)
-//   console.log(password)
-//   console.log(confirmation)
-//   // if (password !== confirmation){
-//   //   res.render("register", {error : "Password and confirmation password do not match. Please Try again", default : ""})
-//   // }
-//   next()
-// })
-
-
 registerRouter.post('/', async (req, res) => {
   console.log(req.body.username)
   console.log(req.body.password)

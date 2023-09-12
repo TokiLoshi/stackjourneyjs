@@ -1,29 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <%- include('./partials/head.ejs') %>
-  <!--Bootstrap https://getbootstrap.com/docs/5.3/getting-started/download/-->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-<!--Icons from Font Awesome-->
-<script src="https://kit.fontawesome.com/a56b22975c.js" crossorigin="anonymous"></script>
-<link href="../css/styles.css" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Comme:wght@100;200&family=Foldit:wght@500&family=Poppins:wght@200;400&display=swap" rel="stylesheet">
-<!-- The emoji graphics are from the open-source project Twemoji. The graphics are copyrighted 2020 Twitter, Inc, and other contributors. -->
-    <!-- Emoji created by John Sorrentino and is available: https://favicon.io/emoji-favicons/shuffle-tracks-button/ -->
-    <!-- License: https://creativecommons.org/licenses/by/4.0/ -->
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
-<body>
-  <%- include('./partials/nav.ejs') %>
+<%layout('layouts/boilerplate')%>
 <h1 class="text-center">Login</h1>
 
 <% if (messages.error) { %>
   <%= messages.error %>
   <% } %>
-
 <div class="d-flex justify-content-center">
   <form style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow" method="post" action="https://sheetdb.io/api/v1/78uve0w4nrmgo?sheet=users">
     <div class="mb-3">
@@ -44,8 +24,3 @@
   </form>
   </div>
   <p class="mt-2 text-center">Don't have an account yet? <a href='/register'>Register here.</a></p>
-  <%- include('./partials/footer.ejs') %>
-<!-- <script src="../login.js"></script> -->
-
-</body>
-</html>
