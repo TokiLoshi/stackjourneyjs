@@ -1,13 +1,15 @@
 const express = require('express')
 const loginRouter = express.Router()
-const flash = require('express-flash')
+const bcrypt = require('bcrypt')
+
+const sheedDb = process.env.SHEETS_URL
 
 loginRouter.get('/', (req, res) => {
   console.log("Getting login")
   res.render("login", {messages : req.flash()})
 })
 
-console.log("HI")
+loginRouter.post('/')
 
 loginRouter.route('/:id')
 .get((req, res) => {

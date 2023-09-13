@@ -65,30 +65,42 @@ if (app.get('env') === 'production'){
 
 app.use(session(sessionConfig));
 app.use(flash());
-app.use('/users', users)
-app.use('/about', about)
-app.use('/dashboard', dashboard)
-app.use('/concepts', concepts)
-app.use('/login', login)
-app.use('/register', register)
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+});
+
+app.use('/users', users);
+app.use('/about', about);
+app.use('/dashboard', dashboard);
+app.use('/concepts', concepts);
+app.use('/login', login);
+app.use('/register', register);
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Passport strategies
 
 
-app.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login',
-  failureFlash: true
-}))
+
+// app.post('/login', passport.authenticate('local', {
+//   successRedirect: '/',
+//   failureRedirect: '/login',
+//   failureFlash: true
+// }))
 
 app.get("/", (req, res) => {
   res.render("index")
 })
 
-app.use((req, res, next) => {
-  res.status(404).send('Not Found')
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message="Oh no something went wrong" } = err;
+  if (!err.message) err.message = "Oops, something went wrong";
+  res.status(statusCode).render('error', { err });
+})
+
+app.all('*', (req, res, next ) => {
+  next(new ExpressError('Page cannot be found', 404))
 })
 
 const PORT = process.env.PORT || 3000;
