@@ -7,11 +7,19 @@
       </button>
       <div class="collapse navbar-collapse" id="navbar">
               <ul class="navbar-nav ms-auto mt-2">
-                  <li class="nav-item"><a class="nav-link" href="about.html" style="color: #FFFFFF;">About</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/about" style="color: #FFFFFF;">About</a></li>
+
+                  <% if (isAuthenticated) {%>
                   <li class="nav-item"><a class="nav-link" href="/dashboard" style="color: #FFFFFF;">Dashboard</a></li>
                   <li class="nav-item"><a class="nav-link" href="/concepts" style="color: #FFFFFF; ">Concepts</a></li>
+                  <% } %>
+                  <% if (!isAuthenticated) { %>
                   <li class="nav-item"><a class="nav-link" href="/register" style="color: #FFFFFF;">Register</a></li>
                   <li class="nav-item"><a class="nav-link" href="/login" style="color: #FFFFFF;">Login</a></li>
+                  <% } %>
+                  <% if (isAuthenticated) {%>
+                  <li class="nav-item"><a class="nav-link" href="/logout" style="color: #FFFFFF;">Logout</a></li>
+                  <% } %>
               </ul>
 
       </div>

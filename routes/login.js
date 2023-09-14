@@ -3,12 +3,15 @@ const loginRouter = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { generateJWT, verifyJWT }  = require('../utils/jwtTokens');
+const checkAuth = require('../utils/checkAuth');
 
 const sheedDb = process.env.SHEETS_URL;
 
+loginRouter.use(checkAuth);
+
 loginRouter.get('/', (req, res) => {
   console.log("Getting login");
-  res.render("login", {messages : req.flash()});
+  res.render("login", {messages : req.flash(), isAuthenticated: req.isAuthenticated });
 })
 
 loginRouter.post('/', async (req, res) => {
@@ -18,44 +21,44 @@ loginRouter.post('/', async (req, res) => {
   if (!email) {
     const failureMessage = "Please enter your email";
     req.flash('error', failureMessage);
-    return res.redirect('login');
+    return res.redirect('login', 200, { isAuthenticated: req.isAuthenticated });
   }
   if (!password) {
     const failureMessage = "Please enter your password";
     req.flash('error', failureMessage);
-    return res.redirect('login');
+    return res.redirect('login', 200, { isAuthenticated: req.isAuthenticated });
   }
   
   else {
-    const response = await fetch(sheedDb + `/search?username=${email}`)
-    const data = await response.json()
-    console.log("DATA IS HEREEEEE!!!!!", data)
+    const response = await fetch(sheedDb + `/search?username=${email}`);
+    const data = await response.json();
+    console.log("DATA IS HEREEEEE!!!!!", data);
     if (data.length) {
-    const userPassword = data[0].password
-    const isMatch = await bcrypt.compare(password, userPassword)
-    console.log("MATCHY MATCHY:", isMatch)
+    const userPassword = data[0].password;
+    const isMatch = await bcrypt.compare(password, userPassword);
+    console.log("MATCHY MATCHY:", isMatch);
     if (isMatch) {
       const successMessage = "Welcome back";
       const token = generateJWT(email);
-      console.log(`Token: ${token}`)
+      console.log(`Token: ${token}`);
       res.cookie('newtoken', token, {
         httpOnly: false, 
         secure: true, 
         maxAge: 10000 * 60 * 60 * 24 * 7
       })
       req.flash('success', successMessage);
-      return res.render('concepts');
+      return res.redirect('concepts', 200, { isAuthenticated: req.isAuthenticated });
       }
       else {
         const failureMessage = "Incorrect email or password";
         req.flash('error', failureMessage);
-        res.redirect('login')
+        res.redirect('login', 200, { isAuthenticated: req.isAuthenticated })
       }
     }
     else {
       const failureMessage = "Incorrect email or password";
       req.flash('error', failureMessage);
-      return res.redirect('login')
+      return res.redirect('login', 200, { isAuthenticated: req.isAuthenticated })
     }
 }})
 

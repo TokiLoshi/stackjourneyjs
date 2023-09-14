@@ -2,16 +2,16 @@
 <h1 class="text-center">Login</h1>
 
 
-<div class="d-flex justify-content-center"">
+<div class="d-flex justify-content-center">
   <form style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow" method="POST" action="/login">
     <div class="m-3">
       <label for="email" class="form-label">Email</label>
-      <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="hi 👋">
+      <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="hi 👋" required>
       <div id="emailHelp" class="form-text" style="color: white;"></div>
     </div>
     <div class="m-3">
       <label for="password" class="form-label">Password</label>
-      <input type="password" name="password" class="form-control" id="exampleInputPassword1" type="password" placeholder="password" autocomplete>
+      <input type="password" name="password" class="form-control" id="exampleInputPassword1" type="password" placeholder="password" autocomplete required>
     </div>
     <div class="m-3">
       <button type="submit" class="btn btn-light">Submit</button>

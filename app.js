@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV !== 'production'){
-  require('dotenv').config()
+  require('dotenv').config();
 }
 
 const express = require("express");
@@ -19,6 +19,7 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const { generateJWT, verifyJWT } = require('./utils/jwtTokens');
+const { checkAuth } = require('./utils/checkAuth');
 const cookieParser = require('cookie-parser');
 
 initializePassport(passport, username => {
@@ -33,6 +34,7 @@ const users = require('./routes/users');
 const dashboard = require('./routes/dashboard');
 const register = require('./routes/register');
 const home = require('./routes/index');
+const logout = require('./routes/logout');
 
 // Middleware & static files
 app.engine('ejs', ejsMate);
@@ -43,8 +45,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-
-
 
 // Configuring sessions
 let sessionConfig = {
@@ -83,15 +83,10 @@ app.use('/concepts', concepts);
 app.use('/login', login);
 app.use('/register', register);
 app.use('/', home);
+app.use('/logout', logout);
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-app.get("/", (req, res) => {
-  console.log('HI')
-  res.render("index")
-})
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message="Oh no something went wrong" } = err;
@@ -99,9 +94,9 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render('error', { err });
 })
 
-app.all('*', (req, res, next ) => {
-  next(new ExpressError('Page cannot be found', 404))
-})
+// app.all('*', (req, res, next ) => {
+//   next(new ExpressError('Page cannot be found', 404))
+// })
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

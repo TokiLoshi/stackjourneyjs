@@ -10,14 +10,14 @@ const generateJWT = (email) => {
 
 const verifyJWT = (token) => {
   if (!token) {
-    console.log("TOKEN IS NULL OR undefinied or something is wrong")
+    throw new Error("TOKEN IS NULL OR undefinied or something is wrong")
     return null;
   }
   try {
     return jwt.verify(token, 'secret');
   }
   catch (error) {
-    console.log(`JWT ERROR: ${error}`);
+    throw new Error(`JWT ERROR: ${error}`);
     return null
   }
 }
