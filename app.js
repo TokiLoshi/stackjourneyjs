@@ -18,6 +18,8 @@ const initializePassport = require('./passport-config');
 const flash = require('connect-flash');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
+const { generateJWT, verifyJWT } = require('./utils/jwtTokens');
+const cookieParser = require('cookie-parser');
 
 initializePassport(passport, username => {
   users.find(user => user.username === email)
@@ -30,6 +32,7 @@ const login = require('./routes/login');
 const users = require('./routes/users');
 const dashboard = require('./routes/dashboard');
 const register = require('./routes/register');
+const home = require('./routes/index');
 
 // Middleware & static files
 app.engine('ejs', ejsMate);
@@ -39,6 +42,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
+
 
 
 // Configuring sessions
@@ -77,19 +82,14 @@ app.use('/dashboard', dashboard);
 app.use('/concepts', concepts);
 app.use('/login', login);
 app.use('/register', register);
+app.use('/', home);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 
-
-
-// app.post('/login', passport.authenticate('local', {
-//   successRedirect: '/',
-//   failureRedirect: '/login',
-//   failureFlash: true
-// }))
-
 app.get("/", (req, res) => {
+  console.log('HI')
   res.render("index")
 })
 

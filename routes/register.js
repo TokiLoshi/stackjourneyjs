@@ -15,7 +15,7 @@ registerRouter.post('/', async (req, res) => {
   console.log(`We got ourselves a username and password: ${username}, ${password}, ${confirmation}`)
   if (!username) {
     console.log(`We're missing a username`)
-    const failureMessage = "Username can't be blank"
+    const failureMessage = "Email can't be blank"
     req.flash('error', failureMessage)
     return res.redirect('register')
   }
@@ -31,7 +31,7 @@ registerRouter.post('/', async (req, res) => {
     return res.redirect('register')
   }
   try {
-    const salt = await bcrypt.genSalt()
+    const salt = 10
     const hashedPassword = await bcrypt.hash(req.body.password, salt)
     console.log("Salt: ", salt)
     console.log("Hashed Password", hashedPassword)
