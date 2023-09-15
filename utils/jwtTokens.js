@@ -6,16 +6,6 @@ const generateJWT = (email) => {
   return jwt.sign({email}, 'secret', { expiresIn: '1h'});
 }
 
-// const verifyJWT = (token, secret) => {
-//   try {
-//     console.log('in JWT trying to verify token')
-//     return verified = jwt.verify(token, secret);
-//   }
-//   catch(error){
-//     console.log("Token Verification has Failed in JWT, time to debug", error)
-//     throw error;
-//   }
-// }
 const verifyJWT = (token, secret) => {
   try {
     return jwt.verify(token, secret);

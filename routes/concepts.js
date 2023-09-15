@@ -11,16 +11,51 @@ conceptRouter.get('/', (req, res) => {
     return res.redirect('/login');
   }
 
-  console.log("User is authenticated but something else is going wrong")
-  res.render("concepts", { isAuthenticated: req.isAuthenticated });
+  console.log("User is authenticated, checking for tokens")
+  const token = req.cookies.newtoken
+  console.log("Token: ", token);
+  const email = req.user.email
+  res.render("concepts", { isAuthenticated: req.isAuthenticated, email: email });
 })
 
-conceptRouter.post('/', (req, res) => {
+conceptRouter.post('/', async (req, res) => {
   console.log('Post request');
-  console.log(req);
   console.log(req.body);
+  const { username, category, difficulty, question, option1, option2, option3, option4, correctAnswer } = req.body
+  console.log("USername asking: ", username);
+  console.log("CATEGORY", category);
+  console.log("difficulty: ", difficulty);
+  console.log("QUESTION: ", question) 
+  console.log("OPTION1: ", option1)
+  console.log("OPTION2: ", option2)
+  console.log("OPTION2: ", option3) 
+  console.log("OPTION2: ", option4)  
+  console.log("CORRECT ANSWER: ", correctAnswer)
   console.log("Authorized? : ", req.isAuthenticated);
-  res.redirect('/concepts', { isAuthenticated: req.isAuthenticated })
+  const response = await fetch(process.env.SHEETS_URL + "?sheet=questions", {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json', 
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      data: {
+        'username': username,
+        'category': category,
+        'difficulty': difficulty, 
+        'question': question,
+        'option1': option1,
+        'option2': option2,
+        'option3': option3,
+        'option4': option4,
+        'correctAnswer': correctAnswer
+      }
+    })
+  })
+  const data = await response.json();
+  console.log("DATA: ", data)
+  req.flash('success', 'Saved')
+  res.redirect('/concepts')
 
 })
 

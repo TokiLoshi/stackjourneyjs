@@ -55,7 +55,7 @@ registerRouter.post('/', async (req, res) => {
     res.status(500).send();
   }
   req.flash('success', 'Success! Now enter your credentials to login');
-  res.redirect('login', { isAuthenticated: req.isAuthenticated });
+  res.redirect('login');
   
 })
 
