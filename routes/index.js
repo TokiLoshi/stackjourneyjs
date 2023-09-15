@@ -11,7 +11,7 @@ console.log('Home Page is here')
 
 homeRouter.get('/', (req, res) => {
 
-console.log(`Is the user Authenticated?: ${req.isAuthenticated} Passing this along to home page`)
+console.log(`Checking if user is Authenticated in home route?: ${req.isAuthenticated} Passing this along to home page`)
 return res.render('index', { isAuthenticated: req.isAuthenticated })
   
   

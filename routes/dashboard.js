@@ -8,7 +8,7 @@ dashboardRouter.use(checkAuth);
 dashboardRouter.get('/', async (req, res) => {
   if (!req.isAuthenticated){
     req.flash('error', 'You must be logged in to see that page');
-    return res.redirect('login', 200, {isAuthenticated: req.isAuthenticated});
+    return res.redirect('login');
   }
   console.log("Getting dashboard");
   const questions = [];

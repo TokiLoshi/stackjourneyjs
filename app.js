@@ -18,9 +18,10 @@ const initializePassport = require('./passport-config');
 const flash = require('connect-flash');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
-const { generateJWT, verifyJWT } = require('./utils/jwtTokens');
-const { checkAuth } = require('./utils/checkAuth');
 const cookieParser = require('cookie-parser');
+const { generateJWT, verifyJWT, decodeJWT } = require('./utils/jwtTokens');
+const { checkAuthentication } = require('./utils/checkAuth');
+
 
 initializePassport(passport, username => {
   users.find(user => user.username === email)

@@ -1,19 +1,17 @@
 const express = require('express');
 const conceptRouter = express.Router();
-const morgan = require('morgan');
 const checkAuth = require('../utils/checkAuth');
 
 conceptRouter.use(checkAuth);
 
-conceptRouter.use(express.urlencoded({ extended: true }));
-conceptRouter.use(morgan('tiny'));
-
 conceptRouter.get('/', (req, res) => {
+  console.log("Getting concepts")
   if (!req.isAuthenticated){
     req.flash('error', 'You must be logged in to see that page');
-    return res.redirect('/login', 200, {isAuthenticate: req.isAuthenticated})
+    return res.redirect('/login');
   }
-  console.log("Getting Concepts");
+
+  console.log("User is authenticated but something else is going wrong")
   res.render("concepts", { isAuthenticated: req.isAuthenticated });
 })
 
