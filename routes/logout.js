@@ -3,7 +3,7 @@ const logoutRouter = express.Router();
 
 logoutRouter.get('/', (req, res) => {
   res.clearCookie('newtoken')
-  req.flash('success', 'logged you out')
+  req.flash('success', 'Logged you out')
   return res.redirect('/')
 })
 

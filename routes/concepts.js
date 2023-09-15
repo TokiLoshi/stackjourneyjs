@@ -21,7 +21,7 @@ conceptRouter.get('/', (req, res) => {
 conceptRouter.post('/', async (req, res) => {
   console.log('Post request');
   console.log(req.body);
-  const { username, category, difficulty, question, option1, option2, option3, option4, correctAnswer } = req.body
+  const { username, category, difficulty, public, question, option1, option2, option3, option4, correctAnswer } = req.body
   console.log("USername asking: ", username);
   console.log("CATEGORY", category);
   console.log("difficulty: ", difficulty);
@@ -42,7 +42,8 @@ conceptRouter.post('/', async (req, res) => {
       data: {
         'username': username,
         'category': category,
-        'difficulty': difficulty, 
+        'difficulty': difficulty,
+        'public': public, 
         'question': question,
         'option1': option1,
         'option2': option2,
