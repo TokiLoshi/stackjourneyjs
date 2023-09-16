@@ -10,14 +10,13 @@ const sheedDb = process.env.SHEETS_URL;
 loginRouter.use(checkAuth);
 
 loginRouter.get('/', (req, res) => {
-  console.log("Getting login");
   res.render("login", {messages : req.flash(), isAuthenticated: req.isAuthenticated });
 })
 
 loginRouter.post('/', async (req, res) => {
   console.log("User wants to login");
   const { email, password } = req.body;
-  console.log(`Email: ${email}, Password: ${password}`);
+
   if (!email) {
     const failureMessage = "Please enter your email";
     req.flash('error', failureMessage);
@@ -32,15 +31,14 @@ loginRouter.post('/', async (req, res) => {
   else {
     const response = await fetch(sheedDb + `/search?username=${email}`);
     const data = await response.json();
-    console.log("DATA IS HEREEEEE!!!!!", data);
+
     if (data.length) {
     const userPassword = data[0].password;
     const isMatch = await bcrypt.compare(password, userPassword);
-    console.log("MATCHY MATCHY:", isMatch);
+
     if (isMatch) {
       const successMessage = "Welcome back";
       const token = generateJWT(email);
-      console.log(`Token: ${token}`);
       res.cookie('newtoken', token, {
         httpOnly: false, 
         secure: true, 
@@ -64,7 +62,6 @@ loginRouter.post('/', async (req, res) => {
 
 loginRouter.route('/:id')
 .get((req, res) => {
-  console.log(req.user)
   res.send(`Get user with ID: ${req.params.id}`)
 })
 .put((req, res) => {
@@ -76,7 +73,6 @@ loginRouter.route('/:id')
  
 
 loginRouter.param("id", (req, res, next, id) => {
-  console.log(id)
   req.user = users[id]
   next()
 })

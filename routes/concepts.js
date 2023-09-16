@@ -5,22 +5,17 @@ const checkAuth = require('../utils/checkAuth');
 conceptRouter.use(checkAuth);
 
 conceptRouter.get('/', (req, res) => {
-  console.log("Getting concepts")
   if (!req.isAuthenticated){
     req.flash('error', 'You must be logged in to see that page');
     return res.redirect('/login');
   }
 
-  console.log("User is authenticated, checking for tokens")
   const token = req.cookies.newtoken
-  console.log("Token: ", token);
   const email = req.user.email
   res.render("concepts", { isAuthenticated: req.isAuthenticated, email: email });
 })
 
 conceptRouter.post('/', async (req, res) => {
-  console.log('Post request');
-  console.log(req.body);
   const { username, category, difficulty, public, question, option1, option2, option3, option4, correctAnswer } = req.body
   const response = await fetch(process.env.SHEETS_URL + "?sheet=questions", {
     method: 'POST',

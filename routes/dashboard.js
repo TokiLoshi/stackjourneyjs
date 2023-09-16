@@ -11,53 +11,71 @@ dashboardRouter.get('/', async (req, res) => {
     return res.redirect('login');
   }
   console.log("Getting dashboard");
-  
+
   const questions = [];
   try {
     const username = req.user.email
     const response = await fetch(process.env.SHEETS_URL + `/search?sheet=questions&username=${username}`);
     const data = await response.json();
-    console.log("Data: ", data)
 
-   
-    // Push that question to the array to send to client
-    // Create variable to display total questions asked
-    // Create variable to display current score 
-    // Create variable on backend to see how many times questions have been attempted
-    // Create variable to show average correctness 
-    // Calculate all of these variables 
-    // Display them on the front end
+     // Calculate correctness and total score
+    let answered = 0 
+    let score = 0
+    for (let key in data){
+      console.log("key: ", data[key])
+      data[key].totalScore === '' ? score += 0 : score += +data[key].totalScore;
+      data[key].answered === ''? answered += 0 : answered += +data[key].answered;
+      questions.push(data[key].question);
+    }
+    const correctness = Math.floor(score / answered * 100)
 
+    // Calculate random question of the day and populate answers 
+    const randomQuestion = Math.floor(Math.random() * questions.length)
+    const quizQuestion = questions[randomQuestion]
+    const searchQuestion = await fetch(process.env.SHEETS_URL + `/search?sheet=questions&username=${username}&question=${quizQuestion}`)
+    const searchData = await searchQuestion.json()
+    let displayQuestion, option1, option2, option3, option4;
+    for (let item of searchData){
+      displayQuestion = item.question
+      option1 = item.option1
+      option2 = item.option2
+      option3 = item.option3
+      option4 = item.option4
+    }
+    
+    // Render Context
+    res.render("dashboard", {
+      correctness: correctness, 
+      answered: answered, 
+      score: score, 
+      displayQuestion: displayQuestion, 
+      option1 : option1, 
+      option2 : option2, 
+      option3 : option3, 
+      option4 : option4, 
+      questions : questions, 
+      isAuthenticated: req.isAuthenticated });
+  }
+  catch(error){
+    console.log(error);
+    req.flash('error', `We found an error: ${error}`)
+    res.redirect('concepts')
+  }
 
-
-  // ** AFTER *** /
+    // ** AFTER *** /
   // Research algorithm to display weighting -> 
   // How to limit search results to a random question out of the array based on weighting
   // Set criteria for weighting 
     
-   // Loop through the Data adding matches to the array 
-    // Add to questions array 
-    for (let key in data){
-      console.log("Row: ", data[key]);
-      console.log(`We found a match: ${data[key].username}`)
-      questions.push(data[key].question);
-      console.log("QUestions so far: ", questions)
-    }
-    const randomQuestion = Math.floor(Math.random() * questions.length)
-    const quizQuestion = questions[randomQuestion]
-    const searchQuestion = await fetch(process.env.SHEETS_URL + `/search?sheet=questions&username=${username}`)
-    const searchData = await searchQuestion.json()
-    console.log("WE FOUND SEARCH DATA: ", searchData)
-    console.log("Question of the DAY!: ", questions[randomQuestion])
-    console.log("Data from sheets: ", questions);
-    res.render("dashboard", {quizQuestion: quizQuestion, questions : questions, isAuthenticated: req.isAuthenticated });
-  }
-  catch(error){
-    console.log(error);
-  }
-  
 
 });
+
+dashboardRouter.post('/', (req, res) => {
+  const preference = req.body
+  console.log("Preferences: ", preference)
+  req.flash('success', 'filtering your requests')
+  res.redirect('concepts')
+})
 
 //  Create a post route 
 // If User answers a questions: 
