@@ -22,16 +22,6 @@ conceptRouter.post('/', async (req, res) => {
   console.log('Post request');
   console.log(req.body);
   const { username, category, difficulty, public, question, option1, option2, option3, option4, correctAnswer } = req.body
-  console.log("USername asking: ", username);
-  console.log("CATEGORY", category);
-  console.log("difficulty: ", difficulty);
-  console.log("QUESTION: ", question) 
-  console.log("OPTION1: ", option1)
-  console.log("OPTION2: ", option2)
-  console.log("OPTION2: ", option3) 
-  console.log("OPTION2: ", option4)  
-  console.log("CORRECT ANSWER: ", correctAnswer)
-  console.log("Authorized? : ", req.isAuthenticated);
   const response = await fetch(process.env.SHEETS_URL + "?sheet=questions", {
     method: 'POST',
     headers: {

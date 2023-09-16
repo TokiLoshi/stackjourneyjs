@@ -4,25 +4,11 @@
 <h1 class="text-center mt-3">🚀 Your Dashboard 🚀</h1>
 <div class="justify-content-center text-center rounded shadow p-3 m-2" style="background-color:rgb(6, 18, 37); color: white;">
   <h1 class="title">Your Stats</h1>
-
-  <% if (questions.length > 4) { %>
-    <% questions.forEach(question => { %>
-      <h3 style="color: green"><%= question %></h3>
-    <% }) %>
-  <% } else { %>
-    <p>Nothing to see here</p>
-  <% } %>
-
-
   <div class="grid text-center" style="--bs-gap: .25rem 1rem;">
-    <div class="snippet"><b>Total Questions asked: </b> <%= questions %> </div>
+    <div class="snippet"><b>Total Concepts added: </b> <%= questions.length %> </div>
     <div class="g-col-6"><b>Total Questions answered:</b> 0</div>
-  
     <div class="g-col-6">Current Score: 0</div>
-    <div class="g-col-6">Average Score: 0</div>
-
-
-
+    <div class="g-col-6">Correctness: 0</div>
 </div>
 <hr>
 <h3>Quiz of the Day</h3>
@@ -30,7 +16,7 @@
 
   <form style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow" method="post" action="https://sheetdb.io/api/v1/78uve0w4nrmgo?sheet=users">
     <div class="mb-3">
-      <p>Question will go here</p>
+      <p><%=quizQuestion %></p>
     </div>
     <label>Choose the correct answer</label>
     <div class="mb-3 form-check">
@@ -89,8 +75,15 @@
     </div>
     </div>
     <div class="justify-content-center text-center rounded shadow m-3" style="background-color:rgb(6, 18, 37); color: white;" id="knowledge">
-      <h2 class="knowledgeTitle">Choose your own adventure</h2>
-      
+      <h2 class="knowledgeTitle">All of your questions</h2>
+      <% if (questions) { %>
+        <% questions.forEach(question => { %>
+          <h3 style="color: green"><%= question %></h3>
+        <% }) %>
+      <% } else { %>
+        <p>Nothing to see here</p>
+      <% } %>
+    
       <!-- <p>When you select the questions you want to study your options will be displayed below</p> -->
     </br>
       <div id="dataContainer" class="m-2"></div>
