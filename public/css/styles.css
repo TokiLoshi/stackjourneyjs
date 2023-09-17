@@ -9,3 +9,25 @@ h1 {
   font-family: 'Poppins', sans-serif;
   color: white;
 }
+
+.notes-hidden {
+  display: none;
+}
+
+.notes-visible {
+  display: block;
+}
+
+.button-hidden {
+  display: none;
+}
+
+.button-visible {
+  display: flex;
+}
+
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}

@@ -87,30 +87,81 @@
     </div>
     </div> -->
     <div class="justify-content-center text-center rounded shadow m-3" style="background-color:rgb(6, 18, 37); color: white;" id="knowledge">
-      <h2 class="knowledgeTitle">All of your Concepts</h2>
+      <h2 class="knowledgeTitle">Study Area</h2>
       
-      <% if (questions.length) { %>
-        <% questions.forEach(question => { %>
-          <h3 style="color: green"><%= question %></h3>
+      <row class="d-flex m-3 flex-wrap justify-content-between">
+      <% if (Object.keys(questions).length) { %>
+        <% Object.keys(questions).forEach((key) => { %>
+          <div class="card text-center m-2 col-3" style="width: 18rem;">
+            <div class="card-body">
+              <button class="btn btn-light button-hidden close-button">X</button>
+              <p class="card-text"><%= key %></p>
+              <p class="card-text notes-hidden"><%= questions[key] %></p>
+              <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-dark reviewQuestion">Review</button>
+                <button type="button" class="btn btn-success editQuestion ms-2">Edit</button>
+                <button type="button" class="btn btn-danger deleteQuestion ms-2">Delete</button>
+              </div>
+              
+            </div>
+          </div>
+          
         <% }) %>
+      </row>
       <% } else { %>
         <p>No concepts yet</p>
       <% } %>
-    
-      <!-- <p>When you select the questions you want to study your options will be displayed below</p> -->
-    </br>
-      <div id="dataContainer" class="m-2"></div>
-  
-      </div>
-      <div class="modal-body">
-        <h2 class="fs-5">Popover in a modal</h2>
-        <p>This <button class="btn btn-secondary" data-bs-toggle="popover" title="Popover title" data-bs-content="Popover body content is set in this attribute.">button</button> triggers a popover on click.</p>
-        <hr>
-        <h2 class="fs-5">Tooltips in a modal</h2>
-        <p><a href="#" data-bs-toggle="tooltip" title="Tooltip">This link</a> and <a href="#" data-bs-toggle="tooltip" title="Tooltip">that link</a> have tooltips on hover.</p>
-      </div>
 
+      Study area should have a modal: 
+      // Two buttons - close and edit
+      // When edit button is clicked 
+      // Generate a form with the id of the question
+      // Add the text to the form 
+      // Hide the text in the modal 
+      // Add method override
+      // Add a post request to the form that is a put 
+      // Add a patch request to update the questions like was done in post
+      // But only updating that question 
+
+      // Bonus:
+        // Add animation? Maybe we could do it so it makes the cards look like they're flipping oveR? 
+        // Maybe we should add the button like that instead?
+    
+  
 <%- include('./partials/footer.ejs') %>
+
+<script>
+  console.log("Script is running")
+  document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll('.reviewQuestion').forEach((button) => {
+    button.addEventListener('click', function(e) {
+      const cardBody = e.target.closest('.card-body');
+      const notes = cardBody.querySelector('.card-text.notes-hidden');
+      notes.classList.remove('notes-hidden');
+      notes.classList.add('notes-visible');
+      button.classList.add('button-hidden')
+      
+      const closeButton = cardBody.querySelector('.close-button');
+      closeButton.classList.toggle('button-hidden');
+
+      closeButton.addEventListener('click', function(e) {
+        console.log("CLose Button was clicked")
+        const closeCard = e.target.closest('.card-body');
+        const closeNotes = closeCard.querySelector('.card-text.notes-visible');
+        closeNotes.classList.remove('notes-visible');
+        closeNotes.classList.add('notes-hidden');
+        closeButton.classList.add('button-hidden');
+
+        button.classList.add('button-visible');
+      })
+      
+    });
+  });
+});
+
+</script>
+
+
 <!-- 
 <script>
   let counter = 0
@@ -167,4 +218,4 @@
   }
 </script> -->
 
-<script src="static/dashboard.js"></script>
+<!-- <script src="static/dashboard.js"></script> -->

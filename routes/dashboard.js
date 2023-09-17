@@ -12,30 +12,38 @@ dashboardRouter.get('/', async (req, res) => {
   }
   console.log("Getting dashboard");
 
-  const questions = [];
+  const questions = {};
+  const tempQuestions = [];
   try {
     const username = req.user.email
     const response = await fetch(process.env.SHEETS_URL + `/search?sheet=questions&username=${username}`);
     const data = await response.json();
-    console.log(`DATA: ${data} and length ${data.length}`)
+
      // Calculate correctness and total score
     let answered = 0 
     let score = 0
     for (let key in data){
       data[key].totalScore === '' ? score += 0 : score += +data[key].totalScore;
       data[key].answered === ''? answered += 0 : answered += +data[key].answered;
-      questions.push(data[key].question);
     }
+    for (let key of data){
+      questions[key.question] = key.notes
+      tempQuestions.push(key.question)
+    }
+
+    // console.log("QUESTIONS LENGHT: ", Object.keys(questions).length)
+
     let correctness = Math.floor(score / answered * 100); 
-    console.log('Correctness: ', correctness)
     isNaN(correctness) ? correctness = 'No questions answered yet' : correctness = correctness + '%';
 
     // Calculate random question of the day and populate answers 
-    const randomQuestion = Math.floor(Math.random() * questions.length)
-    const quizQuestion = questions[randomQuestion]
+    const randomQuestion = Math.floor(Math.random() * tempQuestions.length)
+    const quizQuestion = tempQuestions[randomQuestion]
+    console.log(`QUIZ QUESTION: ${quizQuestion}`)
     const searchQuestion = await fetch(process.env.SHEETS_URL + `/search?sheet=questions&username=${username}&question=${quizQuestion}`)
     const searchData = await searchQuestion.json()
     let displayQuestion, option1, option2, option3, option4;
+    
     for (let item of searchData){
       displayQuestion = item.question
       option1 = item.option1
@@ -43,7 +51,6 @@ dashboardRouter.get('/', async (req, res) => {
       option3 = item.option3
       option4 = item.option4
     }
-
     // Render Context
     res.render("dashboard", {
       correctness: correctness, 
@@ -67,7 +74,6 @@ dashboardRouter.get('/', async (req, res) => {
   // Research algorithm to display weighting -> 
   // How to limit search results to a random question out of the array based on weighting
   // Set criteria for weighting 
-    
 
 });
 
@@ -179,7 +185,18 @@ dashboardRouter.post('/', async (req, res) => {
   // console.log({isUpdated});
   req.flash(isCorrect, message)
   res.redirect('dashboard')
+});
+
+dashboardRouter.put('/', (req, res) => {
+  console.log("Time to edit some notes to a question or a question")
 })
+
+dashboardRouter.delete('/', (req, res) => {
+  console.log("User wants to delete a question")
+
+})
+
+
 
 
 module.exports = dashboardRouter
