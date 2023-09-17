@@ -8,32 +8,33 @@
     <div class="snippet"><b>Total Concepts added: </b> <%= questions.length %> </div>
     <div class="g-col-6"><b>Total Questions answered:</b> <%= answered %> </div>
     <div class="g-col-6">Total Score: <%= score %> </div>
-    <div class="g-col-6">Correctness: <%= correctness %>%</div>
+    <div class="g-col-6">Correctness: <%= correctness %></div>
 </div>
 <hr>
 <h3>Quiz of the Day</h3>
 <div class="d-flex justify-content-center">
 
-  <form style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow" method="post" action="/dashboard">
+  <form name="dashboard" style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow" method="POST" action="/dashboard">
+    <input name="questionAnswered" type="hidden" value="<%=displayQuestion %>">
     <div class="mb-3">
       <p><%=displayQuestion %></p>
     </div>
     <label>Choose the correct answer</label>
     <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="option1">
-      <label class="form-check-label" for="exampleCheck1"><%=option1 %></label>
+      <label class="form-check-label" for="option1"><%=option1 %></label>
+      <input type="checkbox" class="form-check-input" name="firstOption" id="option1" value="<%=option1 %>">
     </div>
     <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="option2">
-      <label class="form-check-label" for="exampleCheck1"><%=option2 %></label>
+      <label class="form-check-label" for="option2"><%=option2 %></label>
+      <input type="checkbox" class="form-check-input" name="secondOption" value="<%=option2 %>" id="option2" >
     </div>
     <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="option3">
-      <label class="form-check-label" for="exampleCheck1"><%=option3 %></label>
+      <label class="form-check-label" for="option2"><%=option3 %></label>
+      <input type="checkbox" class="form-check-input" name="thirdOption" id="option3" value="<%=option3 %>">
     </div>
     <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="option4">
-      <label class="form-check-label" for="exampleCheck1"><%=option4 %></label>
+      <label class="form-check-label" for="option4"><%=option4 %></label>
+      <input type="checkbox" class="form-check-input" id="option4" value="<%=option4 %>" name="fourthOption">
     </div>
     <button type="submit" class="btn btn-light">Submit</button>
   </form>

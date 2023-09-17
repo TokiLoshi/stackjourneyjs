@@ -16,7 +16,11 @@ conceptRouter.get('/', (req, res) => {
 })
 
 conceptRouter.post('/', async (req, res) => {
-  const { username, category, difficulty, public, question, option1, option2, option3, option4, correctAnswer } = req.body
+  let { username, category, difficulty, public, question, option1, option2, option3, option4, correctAnswer } = req.body
+  // Trim the question if it has a question mark we can't save it to sheets or it counts as queries
+  question.endsWith('?') ? question = question.slice(0, -1) : question
+  console.log("QUESTION ANSWERED WITH TRIMMING: ", question) 
+  
   const response = await fetch(process.env.SHEETS_URL + "?sheet=questions", {
     method: 'POST',
     headers: {

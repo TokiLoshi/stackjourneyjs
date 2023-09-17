@@ -22,12 +22,13 @@ dashboardRouter.get('/', async (req, res) => {
     let answered = 0 
     let score = 0
     for (let key in data){
-      console.log("key: ", data[key])
       data[key].totalScore === '' ? score += 0 : score += +data[key].totalScore;
       data[key].answered === ''? answered += 0 : answered += +data[key].answered;
       questions.push(data[key].question);
     }
-    const correctness = Math.floor(score / answered * 100)
+    let correctness = Math.floor(score / answered * 100) + '%'
+    console.log('Correctness: ', correctness)
+    isNaN(correctness) ? correctness = 'No questions answered yet' : correctness
 
     // Calculate random question of the day and populate answers 
     const randomQuestion = Math.floor(Math.random() * questions.length)
@@ -70,11 +71,122 @@ dashboardRouter.get('/', async (req, res) => {
 
 });
 
-dashboardRouter.post('/', (req, res) => {
-  const preference = req.body
-  console.log("Preferences: ", preference)
-  req.flash('success', 'filtering your requests')
-  res.redirect('concepts')
+dashboardRouter.post('/', async (req, res) => {
+  // TODO: 
+    // Correctness is not showing correctly
+    // might have something to do with the numbers
+    // Flash does not work for incorecct answers
+    // Need to fix the trailing questionmark
+    // If we run out of time but are still logged in 
+    // Ad error checking
+
+
+  console.log("****POST route Triggered***")
+  const preference = req.body;
+  let questionAnswered = preference.questionAnswered;
+  
+  let answerSelected;
+  let answerText;
+  for (let key in preference) {
+    if (key === 'firstOption'){
+      answerSelected = 'option1';
+    }
+    else if (key === 'secondOption'){
+      answerSelected = 'option2';
+    }
+    else if (key === 'thridOption'){
+      answerSelected = 'option3';
+    }
+    else {
+      answerSelected = 'option4';
+    }
+  }
+  let username;
+  if (req.user){
+    username = req.user.email
+  }
+  else {
+    res.redirect('login')
+  }
+
+  const questionInfo = await fetch(process.env.SHEETS_URL + `/search?sheet=questions&username=${username}&question=${questionAnswered}`);
+  const allInfo = await questionInfo.json();
+  console.log("ALL Infos' length: ", allInfo.length);
+  if (!allInfo.length) {
+    req.flash('error', 'something went wrong');
+    res.redirect('login');
+  } 
+  console.log("All info: ", allInfo)
+  console.log("RUNNING THIS")
+  let lastScore = allInfo[0].lastScore; 
+  let totalScore = allInfo[0].totalScore; 
+  let answered = allInfo[0].answered;
+  let correctAnswer = allInfo[0].correctAnswer;
+  if (correctAnswer === 'option1'){
+    answerText = allInfo[0].option1
+  }
+  else if (correctAnswer === 'option2') {
+    answerText = allInfo[0].option2
+  }
+  else if (correctAnswer === 'option3') {
+    answerText = allInfo[0].option3
+  }
+  else {
+    answerText = allInfo[0].option4
+  }
+
+
+
+  if (lastScore === ''){
+    lastScore = 0;
+  }
+  if (totalScore === ''){
+    totalScore = 0;
+  }
+  if (answered === ''){
+    answered = 0;
+  }
+  
+  console.log("QUESITON INFO: ", allInfo)
+  console.log(`Last Score: ${lastScore}, total Score: ${totalScore}, Answered: ${answered}`)
+  console.log(`Correct Answer: ${correctAnswer}`)
+  console.log(`Answer selected: ${answerSelected}`)
+  let correct = false
+  if (correctAnswer === answerSelected){
+    totalScore = +totalScore + 1;
+    lastScore = +lastScore + 1;
+    correct = true
+  }
+  else {
+    lastScore = 0;
+  }
+  answered = +answered + 1;
+  let message, isCorrect;
+  correct ? message = `Correct! The answer is: ${answerText}` : `Incorrect! The answer is: ${answerText}`
+  correct ? isCorrect = `success` : isCorrect = `error`
+  console.log(`Question: ${questionAnswered}, correctAnsewr: ${correctAnswer}`)
+  console.log(`Request wer'e making: ${process.env.SHEETS_URL}/question/${questionAnswered}`)
+  
+   
+  const sheetUpdate = await fetch(`${process.env.SHEETS_URL}/question/${questionAnswered}`, {
+    method: 'PATCH',
+    headers: {
+      'Accept' : 'application/json', 
+      'Content-Type': 'application/json'
+    }, 
+    body: JSON.stringify({
+      sheet: 'questions',
+      data: {
+        'lastScore': lastScore,
+        'totalScore': totalScore,
+        'answered': answered
+      },
+    })
+  }).then((response) => response.json()).then((data) => console.log(data))
+  // const isUpdated = await sheetUpdate.json();
+  // console.log({isUpdated});
+  req.flash(isCorrect, message)
+  res.redirect('dashboard')
 })
 
 //  Create a post route 
