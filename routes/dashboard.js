@@ -17,7 +17,7 @@ dashboardRouter.get('/', async (req, res) => {
     const username = req.user.email
     const response = await fetch(process.env.SHEETS_URL + `/search?sheet=questions&username=${username}`);
     const data = await response.json();
-
+    console.log(`DATA: ${data} and length ${data.length}`)
      // Calculate correctness and total score
     let answered = 0 
     let score = 0
@@ -26,9 +26,9 @@ dashboardRouter.get('/', async (req, res) => {
       data[key].answered === ''? answered += 0 : answered += +data[key].answered;
       questions.push(data[key].question);
     }
-    let correctness = Math.floor(score / answered * 100) + '%'
+    let correctness = Math.floor(score / answered * 100); 
     console.log('Correctness: ', correctness)
-    isNaN(correctness) ? correctness = 'No questions answered yet' : correctness
+    isNaN(correctness) ? correctness = 'No questions answered yet' : correctness = correctness + '%';
 
     // Calculate random question of the day and populate answers 
     const randomQuestion = Math.floor(Math.random() * questions.length)
@@ -43,7 +43,7 @@ dashboardRouter.get('/', async (req, res) => {
       option3 = item.option3
       option4 = item.option4
     }
-    
+
     // Render Context
     res.render("dashboard", {
       correctness: correctness, 
@@ -72,21 +72,15 @@ dashboardRouter.get('/', async (req, res) => {
 });
 
 dashboardRouter.post('/', async (req, res) => {
-  // TODO: 
-    // Correctness is not showing correctly
-    // might have something to do with the numbers
-    // Flash does not work for incorecct answers
-    // Need to fix the trailing questionmark
-    // If we run out of time but are still logged in 
-    // Ad error checking
 
-
-  console.log("****POST route Triggered***")
+  // Get question user answered from form
   const preference = req.body;
   let questionAnswered = preference.questionAnswered;
   
   let answerSelected;
   let answerText;
+
+  // Translate answer to options in sheet
   for (let key in preference) {
     if (key === 'firstOption'){
       answerSelected = 'option1';
@@ -101,6 +95,8 @@ dashboardRouter.post('/', async (req, res) => {
       answerSelected = 'option4';
     }
   }
+
+  // Get username -> If token is expired redirect to login
   let username;
   if (req.user){
     username = req.user.email
@@ -109,6 +105,7 @@ dashboardRouter.post('/', async (req, res) => {
     res.redirect('login')
   }
 
+  // Get all the data for the answered question
   const questionInfo = await fetch(process.env.SHEETS_URL + `/search?sheet=questions&username=${username}&question=${questionAnswered}`);
   const allInfo = await questionInfo.json();
   console.log("ALL Infos' length: ", allInfo.length);
@@ -116,11 +113,12 @@ dashboardRouter.post('/', async (req, res) => {
     req.flash('error', 'something went wrong');
     res.redirect('login');
   } 
-  console.log("All info: ", allInfo)
-  console.log("RUNNING THIS")
+  
+  // Set scoring information and handle any blanks in the sheet
   let lastScore = allInfo[0].lastScore; 
   let totalScore = allInfo[0].totalScore; 
   let answered = allInfo[0].answered;
+
   let correctAnswer = allInfo[0].correctAnswer;
   if (correctAnswer === 'option1'){
     answerText = allInfo[0].option1
@@ -135,8 +133,6 @@ dashboardRouter.post('/', async (req, res) => {
     answerText = allInfo[0].option4
   }
 
-
-
   if (lastScore === ''){
     lastScore = 0;
   }
@@ -147,10 +143,7 @@ dashboardRouter.post('/', async (req, res) => {
     answered = 0;
   }
   
-  console.log("QUESITON INFO: ", allInfo)
-  console.log(`Last Score: ${lastScore}, total Score: ${totalScore}, Answered: ${answered}`)
-  console.log(`Correct Answer: ${correctAnswer}`)
-  console.log(`Answer selected: ${answerSelected}`)
+  // Update scoring variables based on whether answer is correct
   let correct = false
   if (correctAnswer === answerSelected){
     totalScore = +totalScore + 1;
@@ -162,12 +155,11 @@ dashboardRouter.post('/', async (req, res) => {
   }
   answered = +answered + 1;
   let message, isCorrect;
-  correct ? message = `Correct! The answer is: ${answerText}` : `Incorrect! The answer is: ${answerText}`
+  correct ? message = `Correct! The answer is: ${answerText}` : message = `Incorrect! The answer is: ${answerText}`
   correct ? isCorrect = `success` : isCorrect = `error`
   console.log(`Question: ${questionAnswered}, correctAnsewr: ${correctAnswer}`)
-  console.log(`Request wer'e making: ${process.env.SHEETS_URL}/question/${questionAnswered}`)
-  
-   
+  console.log(`Message: ${message}, isCorrect: ${isCorrect}`)
+  // Update the sheet with the new scoring information
   const sheetUpdate = await fetch(`${process.env.SHEETS_URL}/question/${questionAnswered}`, {
     method: 'PATCH',
     headers: {
@@ -188,19 +180,6 @@ dashboardRouter.post('/', async (req, res) => {
   req.flash(isCorrect, message)
   res.redirect('dashboard')
 })
-
-//  Create a post route 
-// If User answers a questions: 
-// Get the name of the question and their answer 
-// Get rid of public options we should search by their name
-// Check which option is correct 
-// Get their current score
-// If their current score for that question is blank 
-    // Update it to their new score 
-// Else update it by their current score 
-// Get their current questions answered 
-  // Increment it by 1 
-// Redirect to load new stats 
 
 
 module.exports = dashboardRouter

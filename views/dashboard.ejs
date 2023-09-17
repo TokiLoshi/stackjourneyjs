@@ -12,14 +12,18 @@
 </div>
 <hr>
 <h3>Quiz of the Day</h3>
+
+<% if (displayQuestion !== undefined){ %>
+
+
 <div class="d-flex justify-content-center">
 
   <form name="dashboard" style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow" method="POST" action="/dashboard">
     <input name="questionAnswered" type="hidden" value="<%=displayQuestion %>">
     <div class="mb-3">
-      <p><%=displayQuestion %></p>
+      <p><b>Question: </b> <%=displayQuestion %></p>
     </div>
-    <label>Choose the correct answer</label>
+    <label class="mb-3">Choose the correct answer</label>
     <div class="mb-3 form-check">
       <label class="form-check-label" for="option1"><%=option1 %></label>
       <input type="checkbox" class="form-check-input" name="firstOption" id="option1" value="<%=option1 %>">
@@ -38,8 +42,16 @@
     </div>
     <button type="submit" class="btn btn-light">Submit</button>
   </form>
+
+<% } else { %>
+  <p>You haven't uploaded any concepts yet. Let's get started.</p>
+  <button class="btn btn-dark"><a href='/concepts' style="color: white; text-decoration: none;">Add Concepts</a></button>
+<% } %>
   </div>
+
 </div>
+
+<!-- Work in progress
 <div class="d-flex justify-content-center">
   <div class="d-flex justify-content-center">
     <form id="quizForm" style="background-color:rgb(6, 18, 37); color: white;" class="p-3 rounded shadow">
@@ -73,15 +85,16 @@
       </div>
     </form>
     </div>
-    </div>
+    </div> -->
     <div class="justify-content-center text-center rounded shadow m-3" style="background-color:rgb(6, 18, 37); color: white;" id="knowledge">
-      <h2 class="knowledgeTitle">All of your questions</h2>
-      <% if (questions) { %>
+      <h2 class="knowledgeTitle">All of your Concepts</h2>
+      
+      <% if (questions.length) { %>
         <% questions.forEach(question => { %>
           <h3 style="color: green"><%= question %></h3>
         <% }) %>
       <% } else { %>
-        <p>Nothing to see here</p>
+        <p>No concepts yet</p>
       <% } %>
     
       <!-- <p>When you select the questions you want to study your options will be displayed below</p> -->
