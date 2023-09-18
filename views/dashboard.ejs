@@ -100,7 +100,10 @@
               <div class="d-flex justify-content-center">
                 <button type="button" class="btn btn-dark reviewQuestion">Review</button>
                 <button type="button" class="btn btn-success editQuestion ms-2">Edit</button>
-                <button type="button" class="btn btn-danger deleteQuestion ms-2">Delete</button>
+                <form action="/dashboard?_method=DELETE" method="POST"> 
+                  <input type="hidden" name="questionKey" value="<%= key %>">
+                  <button class="btn btn-danger deleteQuestion ms-2">Delete</button>
+                </form>
               </div>
               
             </div>

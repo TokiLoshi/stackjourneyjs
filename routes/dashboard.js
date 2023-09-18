@@ -191,9 +191,25 @@ dashboardRouter.put('/', (req, res) => {
   console.log("Time to edit some notes to a question or a question")
 })
 
-dashboardRouter.delete('/', (req, res) => {
-  console.log("User wants to delete a question")
-
+dashboardRouter.delete('/', async (req, res) => {
+  console.log("User wants to delete a question");
+  const deleteItem = req.body.questionKey;
+  console.log("Item to delete: ", deleteItem);
+  const username = req.user.email
+  const rowDelete =await fetch(`${process.env.SHEETS_URL}/question/${deleteItem}`, {
+    method: 'DELETE',
+    sheet: 'questions',
+    headers: {
+      'Accept': 'application/json', 
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      sheet: 'questions',
+    })
+  }).then((response) => response.json())
+  .then((data) => console.log(data));
+  req.flash('success', `Deleted: ${deleteItem}`);
+  res.redirect('dashboard')
 })
 
 
