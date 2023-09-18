@@ -57,6 +57,7 @@ dashboardRouter.get('/', async (req, res) => {
       answered: answered, 
       score: score, 
       displayQuestion: displayQuestion, 
+      tempQuestions: tempQuestions,
       option1 : option1, 
       option2 : option2, 
       option3 : option3, 
@@ -189,6 +190,13 @@ dashboardRouter.post('/', async (req, res) => {
 
 dashboardRouter.put('/', (req, res) => {
   console.log("Time to edit some notes to a question or a question")
+  const editItem = req.body.editKey;
+  const notesItem = req.body.notesKey;
+  console.log(`Item to edit: ${editItem}, notes: ${notesItem}`);
+  const { newQuestion, newNotes } = req.body
+  console.log(`Updated Question: ${newQuestion}, edited: ${newNotes}`)
+
+  res.send(editItem);
 })
 
 dashboardRouter.delete('/', async (req, res) => {

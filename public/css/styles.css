@@ -31,3 +31,11 @@ h1 {
   top: 5px;
   right: 5px;
 }
+
+.text-hidden {
+  display: none;
+}
+
+.text-visible {
+  display: block;
+}
