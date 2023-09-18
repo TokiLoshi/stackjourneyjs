@@ -99,10 +99,10 @@
               <p class="card-text notes-hidden"><%= questions[key] %></p>
               <div class="d-flex justify-content-center">
                 <button type="button" class="btn btn-dark reviewQuestion">Review</button>
-                <button type="button" class="btn btn-success editQuestion ms-2">Edit</button>
+                <button type="button" class="btn btn-success button-hidden editQuestion ms-2">Edit</button>
                 <form action="/dashboard?_method=DELETE" method="POST"> 
                   <input type="hidden" name="questionKey" value="<%= key %>">
-                  <button class="btn btn-danger deleteQuestion ms-2">Delete</button>
+                  <button class="btn btn-danger deleteQuestion ms-2 button-hidden">Delete</button>
                 </form>
               </div>
               
@@ -147,6 +147,12 @@
       const closeButton = cardBody.querySelector('.close-button');
       closeButton.classList.toggle('button-hidden');
 
+      const deleteButton = cardBody.querySelector('.deleteQuestion');
+      deleteButton.classList.toggle('button-hidden');
+
+      const editButton = cardBody.querySelector('.editQuestion');
+      editButton.classList.toggle('button-hidden');
+
       closeButton.addEventListener('click', function(e) {
         console.log("CLose Button was clicked")
         const closeCard = e.target.closest('.card-body');
@@ -154,6 +160,12 @@
         closeNotes.classList.remove('notes-visible');
         closeNotes.classList.add('notes-hidden');
         closeButton.classList.add('button-hidden');
+
+        deleteButton.classList.remove('button-visible');
+        deleteButton.classList.add('button-hidden');
+
+        editButton.classList.remove('button-visible');
+        editButton.classList.add('button-hidden');
 
         button.classList.add('button-visible');
       })
