@@ -88,19 +88,19 @@
     </form>
     </div>
     </div> -->
-    <div class="justify-content-center text-center rounded shadow m-3" style="background-color:rgb(6, 18, 37); color: white;" id="knowledge">
+    <div class="justify-content-center text-center rounded shadow m-3" style="background-color:rgb(6, 18, 37); color: white; min-height: fit-content;" id="knowledge">
+    </br>
       <h2 class="knowledgeTitle">Study Area</h2>
-      
-      <row class="d-flex m-3 flex-wrap justify-content-between">
+      <row class="d-flex m-3 mb-3 flex-wrap justify-content-center">
       <% if (Object.keys(questions).length) { %>
         <% Object.keys(questions).forEach((key) => { %>
           <div class="card text-center m-2 col-3" style="width: 18rem;">
             <div class="card-body">
               <button class="btn btn-light button-hidden close-button">X</button>
               <p class="card-text"><%= key %></p>
-              <p class="card-text notes-hidden"><%= questions[key] %></p>
+              <p class="card-text text-hidden concept"><%= questions[key] %></p>
               <div class="d-flex justify-content-center">
-                <button type="button" class="btn btn-dark reviewQuestion">Review</button>
+                <button type="button" class="btn btn-dark reviewQuestion button-visible">Review</button>
                 <form action="/dashboard?_method=PUT" method="POST">
                   <input type="hidden" name="editKey" value="<%= key%>">
                   <input type="hidden" name="notesKey" value="<%= questions[key] %>">
@@ -117,119 +117,84 @@
                 </form>
               </div>
             </div>
+            
           </div>
           
         <% }) %>
       </row>
+      <div class="mb-2" style="height: 10px;">
+        
+      </div>
       <% } else { %>
         <p>No concepts yet</p>
       <% } %>
-    
+    </div>
+    <div class="m-3" style="height: 100px;">
+
+    </div>
+  </br>
+
 <%- include('./partials/footer.ejs') %>
 
 <script>
   console.log("Script is running")
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
 
-  const toggleClasses = (element, ...classes) => {
-    classes.forEach(cls => element.classList.toggle(cls));
-  }
+const setClasses = (element, addClasses, removeClasses) => {
+  element.classList.add(...addClasses);
+  element.classList.remove(...removeClasses);
+}
 
-  const handleEditButton = (elements) => {
-    toggleClasses(elements.newQuestion, 'text-hidden', 'text-visible');
-    toggleClasses(elements.newNotes, 'text-hidden', 'text-visible');
-    toggleClasses(elements.submitButton, 'button-hidden', 'button-visible');
-    toggleClasses(elements.deleteButton, 'button-hidden', 'button-visible');
-  }
+document.querySelectorAll('.reviewQuestion').forEach((button) => {
 
+  const cardBody = button.closest('.card-body');
+  const notes = cardBody.querySelector('.card-text.notes-hidden');
 
-  
-  document.querySelectorAll('.reviewQuestion').forEach((button) => {
-    button.addEventListener('click', function(e) {
-      const cardBody = e.target.closest('.card-body');
-      const notes = cardBody.querySelector('.card-text.notes-hidden');
+  const elements = {
+    closeButton: cardBody.querySelector('.close-button'),
+    deleteButton: cardBody.querySelector('.deleteQuestion'),
+    newQuestion: cardBody.querySelector('.updateQuestion'),
+    newNotes: cardBody.querySelector('.updateNotes'),
+    submitButton: cardBody.querySelector('.submitNotes'),
+    editButton: cardBody.querySelector('.editQuestion'),
+    reviewButton: button,
+    concept: cardBody.querySelector('.concept')
+  };
 
-      const elements = {
-        closeButton: cardBody.querySelector('.close-button'),
-        deleteButton: cardBody.querySelector('.deleteQuestion'),
-        newQuestion: cardBody.querySelector('.updateQuestion'),
-        newNotes: cardBody.querySelector('.updateNotes'),
-        submitButton: cardBody.querySelector('.submitNotes'),
-        editButton: cardBody.querySelector('.editQuestion')
-      };
+  // Review Button reveals concept, edit, delete and close buttons
+  const handleReviewButton = () => {
+    setClasses(elements.concept, ['text-visible'], ['text-hidden'])
+    setClasses(elements.closeButton, ['button-visible'], ['button-hidden']);
+    setClasses(elements.editButton, ['button-visible'], ['button-hidden']);
+    setClasses(elements.deleteButton, ['button-visible'], ['button-hidden']);
+    setClasses(elements.reviewButton, ['button-hidden'], ['button-visible']);
+  };
 
-      toggleClasses(notes, 'notes-hidden', 'notes-visible');
-      toggleClasses(button, 'button-hidden');
-      toggleClasses(elements.closeButton, 'button-hidden');
-      toggleClasses(elements.deleteButton, 'button-hidden');
+  // Edit Button reveals edit inputs, submit button and hides delete button
+  const handleEditButton = () => {
+    setClasses(elements.editButton, ['button-hidden'], ['button-visible']);
+    setClasses(elements.deleteButton, ['button-hidden'], ['button-visible']);
+    setClasses(elements.submitButton, ['button-visible'], ['button-hidden']);
+    setClasses(elements.newQuestion, ['text-visible'], ['text-hidden']);
+    setClasses(elements.newNotes, ['text-visible'], ['text-hidden']);
+  };
 
-      elements.editButton.addEventListener('click', function(elements){
-        handleEditButton(elements)
-      })
+  // Close button hides everything and shows the review button
+  const handleCloseButton = () => {
+    setClasses(elements.editButton, ['button-hidden'], ['button-visible']);
+    setClasses(elements.deleteButton, ['button-hidden'], ['button-visible']);
+    setClasses(elements.newQuestion, ['text-hidden'], ['text-visible']);
+    setClasses(elements.newNotes, ['text-hidden'], ['text-visible']);
+    setClasses(elements.submitButton, ['button-hidden'], ['button-visible']);
+    setClasses(elements.reviewButton, ['button-visible'], ['button-hidden']);
+    setClasses(elements.closeButton, ['button-hidden'], ['button-visible']);
+    setClasses(elements.concept, ['text-visible', 'text-hidden']);
+  };
 
-      elements.closeButton.addEventListener('click', function(element) {
-        toggleClasses(notes, 'notes-visible', 'notes-hidden');
-        toggleClasses(elements.closeButton, 'button-hidden');
-        toggleClasses(elements.deleteButton, 'button-hidden, button-visible');
-        toggleClasses(elements.editButton, 'button-hidden', 'button-visible');
-        toggleClasses(button, 'button-visible');
-      })
+  button.addEventListener('click', handleReviewButton);
+  elements.closeButton.addEventListener('click', handleCloseButton);
+  elements.editButton.addEventListener('click', handleEditButton);
 
-      notes.classList.remove('notes-hidden');
-      notes.classList.add('notes-visible');
-      button.classList.add('button-hidden')
-      
-      const closeButton = cardBody.querySelector('.close-button');
-      closeButton.classList.toggle('button-hidden');
-
-      const deleteButton = cardBody.querySelector('.deleteQuestion');
-      deleteButton.classList.toggle('button-hidden');
-
-      const newQuestion = cardBody.querySelector('.updateQuestion');
-
-      const newNotes = cardBody.querySelector('.updateNotes');
-      
-      const submitButton = cardBody.querySelector('.submitNotes');
-
-      const editButton = cardBody.querySelector('.editQuestion');
-      editButton.addEventListener('click', function(e) {
-        console.log("Edit button was clicked");
-        
-        newQuestion.classList.remove('text-hidden');
-        newQuestion.classList.add('text-visible')
-
-        newNotes.classList.remove('text-hidden');
-        newNotes.classList.add('text-visible');
-
-        submitButton.classList.remove('button-hidden')
-        submitButton.classList.add('button-visible');
-
-        deleteButton.classList.remove('button-visible');
-        deleteButton.classList.add('button-hidden');
-        
-        editButton.classList.toggle('button-hidden');
-      })
-      editButton.classList.toggle('button-hidden');
-
-      closeButton.addEventListener('click', function(e) {
-        console.log("CLose Button was clicked")
-        const closeCard = e.target.closest('.card-body');
-        const closeNotes = closeCard.querySelector('.card-text.notes-visible');
-        closeNotes.classList.remove('notes-visible');
-        closeNotes.classList.add('notes-hidden');
-        closeButton.classList.add('button-hidden');
-
-        deleteButton.classList.remove('button-visible');
-        deleteButton.classList.add('button-hidden');
-
-        editButton.classList.remove('button-visible');
-        editButton.classList.add('button-hidden');
-
-        button.classList.add('button-visible');
-      })
-
-      
-    });
   });
 });
 
