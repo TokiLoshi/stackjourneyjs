@@ -94,16 +94,12 @@ app.use((err, req, res, next) => {
   const { statusCode = 500, message="Oh no something went wrong" } = err;
   if (!err.message) err.message = "Oops, something went wrong";
   res.status(statusCode).render('error', { err });
-})
-
-// app.all('*', (req, res, next ) => {
-//   next(new ExpressError('Page cannot be found', 404))
-// })
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
-})
+  console.log(`Server is running on port ${PORT}`);
+});
 
 
 module.exports = app;

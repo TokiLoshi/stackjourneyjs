@@ -140,6 +140,7 @@
   console.log("Script is running")
   document.addEventListener("DOMContentLoaded", function () {
 
+// Create classes to toggle through 
 const setClasses = (element, addClasses, removeClasses) => {
   element.classList.add(...addClasses);
   element.classList.remove(...removeClasses);
@@ -147,6 +148,7 @@ const setClasses = (element, addClasses, removeClasses) => {
 
 document.querySelectorAll('.reviewQuestion').forEach((button) => {
 
+  // Get the current card 
   const cardBody = button.closest('.card-body');
   const notes = cardBody.querySelector('.card-text.notes-hidden');
 
@@ -199,63 +201,3 @@ document.querySelectorAll('.reviewQuestion').forEach((button) => {
 });
 
 </script>
-
-
-
-<!-- 
-<script>
-  let counter = 0
-  const onlyOnce = document.getElementById('getQuestions')
-  const container = document.getElementById('dataContainer')
-  onlyOnce.addEventListener('submit', () => {
-      counter++
-      if (counter > 1){
-        container.textContent = "Loading more questions"
-      }
-  });
-  const form = document.getElementById('quizForm');
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    try {
-      const response = await fetch('https://sheetdb.io/api/v1/78uve0w4nrmgo')
-      const data = await response.json()
-      console.log(data.id)
-      const userData = []
-      const username = "poppy"
-      if (data.includes(username)){
-        userData.push(data.username)
-        console.log(userData)
-      }
-      data.forEach((row, index) => {
-        console.log(`Row number: ${index}`)
-        const paragraph = document.createElement('p')
-        const button = document.createElement('button')
-
-        paragraph.setAttribute('style', 'display: block;')
-        paragraph.setAttribute('class', 'mb-2')
-        paragraph.textContent = JSON.stringify(row.question)
-
-        button.setAttribute('class', 'btn btn-light ms-4 mb-2')
-        button.setAttribute('id', index + 1)
-        button.textContent = "Try"
-
-        button.addEventListener('click', () => {
-          alert(button.id)
-        })
-
-        container.appendChild(paragraph)
-        paragraph.appendChild(button)
-     
-      })
-    }
-    catch (error){
-      console.log('Error fetching data: ', error)
-    }
-  });
-
-  function getForm(dataRow){
-
-  }
-</script> -->
-
-<!-- <script src="static/dashboard.js"></script> -->

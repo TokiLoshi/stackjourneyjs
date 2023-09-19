@@ -20,7 +20,7 @@ The study container of the dashboard only shows the user's question. Clicking on
 
 ## How to run this application
  * Use this current version to check it out. View the deployed heroku site [here](https://stackjourneyjs-5cb7b83591cd.herokuapp.com/)
-* Create your own version. Fork this project and `npm install` the requirements. Visit [Sheet DB](https://sheetdb.io/) to set up your own API. Create a users tab and a questions tab. In the questions tab, ensure your columns are: username, password. In your questions tab, enter the following columns: username, category, difficulty, public, lastScore	totalScore, question, option1, option2, option3, option4, correctAnswer, answered, weighting, notes																															 
+* Create your own version. Fork this project and `npm install` the requirements. Visit [Sheet DB](https://sheetdb.io/) to set up your own API. Create a users tab and a questions tab. In the questions tab, ensure your columns are: username, password. In your questions tab, enter the following columns: username, category, difficulty, public, lastScore	totalScore, question, option1, option2, option3, option4, correctAnswer, answered, weighting, notes. Add your env variables for your sheet API and your SESSION_SECRET.																														 
 
 ## Photo Credits
 * Photo by Alina Autumn [from Pexels:](https://www.pexels.com/photo/goats-on-a-grass-field-11512740/)

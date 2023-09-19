@@ -10,7 +10,6 @@ dashboardRouter.get('/', async (req, res) => {
     req.flash('error', 'You must be logged in to see that page');
     return res.redirect('login');
   }
-  console.log("Getting dashboard");
 
   const questions = {};
   const tempQuestions = [];
@@ -31,15 +30,12 @@ dashboardRouter.get('/', async (req, res) => {
       tempQuestions.push(key.question)
     }
 
-    // console.log("QUESTIONS LENGHT: ", Object.keys(questions).length)
-
     let correctness = Math.floor(score / answered * 100); 
     isNaN(correctness) ? correctness = 'No questions answered yet' : correctness = correctness + '%';
 
     // Calculate random question of the day and populate answers 
     const randomQuestion = Math.floor(Math.random() * tempQuestions.length)
     const quizQuestion = tempQuestions[randomQuestion]
-    console.log(`QUIZ QUESTION: ${quizQuestion}`)
     const searchQuestion = await fetch(process.env.SHEETS_URL + `/search?sheet=questions&username=${username}&question=${quizQuestion}`)
     const searchData = await searchQuestion.json()
     let displayQuestion, option1, option2, option3, option4;
@@ -115,7 +111,6 @@ dashboardRouter.post('/', async (req, res) => {
   // Get all the data for the answered question
   const questionInfo = await fetch(process.env.SHEETS_URL + `/search?sheet=questions&username=${username}&question=${questionAnswered}`);
   const allInfo = await questionInfo.json();
-  console.log("ALL Infos' length: ", allInfo.length);
   if (!allInfo.length) {
     req.flash('error', 'something went wrong');
     res.redirect('login');
@@ -164,8 +159,7 @@ dashboardRouter.post('/', async (req, res) => {
   let message, isCorrect;
   correct ? message = `Correct! The answer is: ${answerText}` : message = `Incorrect! The answer is: ${answerText}`
   correct ? isCorrect = `success` : isCorrect = `error`
-  console.log(`Question: ${questionAnswered}, correctAnsewr: ${correctAnswer}`)
-  console.log(`Message: ${message}, isCorrect: ${isCorrect}`)
+
   // Update the sheet with the new scoring information
   const sheetUpdate = await fetch(`${process.env.SHEETS_URL}/question/${questionAnswered}`, {
     method: 'PATCH',
@@ -182,20 +176,14 @@ dashboardRouter.post('/', async (req, res) => {
       },
     })
   }).then((response) => response.json()).then((data) => console.log(data))
-  // const isUpdated = await sheetUpdate.json();
-  // console.log({isUpdated});
   req.flash(isCorrect, message)
   res.redirect('dashboard')
 });
 
 dashboardRouter.put('/', async (req, res) => {
-  console.log("Time to edit some notes to a question or a question")
   const editItem = req.body.editKey;
   const notesItem = req.body.notesKey;
-  console.log(`Item to edit: ${editItem}, notes: ${notesItem}`);
-
-  const { newQuestion, newNotes } = req.body
-  console.log(`Updated Question: ${newQuestion}, edited: ${newNotes}`)
+  const { newQuestion, newNotes } = req.body;
 
   // If the question is empty or the notes are empty return error
   if ( newQuestion.length === 0 || newNotes.length === 0 ){
@@ -230,9 +218,7 @@ dashboardRouter.put('/', async (req, res) => {
 })
 
 dashboardRouter.delete('/', async (req, res) => {
-  console.log("User wants to delete a question");
   const deleteItem = req.body.questionKey;
-  console.log("Item to delete: ", deleteItem);
   const username = req.user.email
   const rowDelete =await fetch(`${process.env.SHEETS_URL}/question/${deleteItem}`, {
     method: 'DELETE',

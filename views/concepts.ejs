@@ -87,20 +87,4 @@
 
 </div>
 <%- include('./partials/footer.ejs') %>
-<script src="static/concepts.js">
-  // TO : DO Will likely need to change the form route to get it here
-  // Parse it here and then send it to post, this way we 
-  // can also change the route and see how the page reloads
-  let concepts = document.getElementById('concepts')
-  concepts.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    try {
-      console.log('Trying to do this')
-    }
-    catch(error) {
-      console.log(`We got an error: ${error}`)
-    }
-    console.log('This is running')
-    alert('This shouldn\'t reload')
-  })
-</script>
+

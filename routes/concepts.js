@@ -10,17 +10,16 @@ conceptRouter.get('/', (req, res) => {
     return res.redirect('/login');
   }
 
-  const token = req.cookies.newtoken
-  const email = req.user.email
+  const token = req.cookies.newtoken;
+  const email = req.user.email;
   res.render("concepts", { isAuthenticated: req.isAuthenticated, email: email });
 })
 
 conceptRouter.post('/', async (req, res) => {
-  let { username, category, difficulty, public, question, option1, option2, option3, option4, correctAnswer, notes } = req.body
-  // Trim the question if it has a question mark we can't save it to sheets or it counts as queries
-  question.endsWith('?') ? question = question.slice(0, -1) : question
+  let { username, category, difficulty, public, question, option1, option2, option3, option4, correctAnswer, notes } = req.body;
   
-  console.log("This is what we have in notes", notes)
+  // Trim the question if it has a question mark we can't save it to sheets or it counts as queries
+  question.endsWith('?') ? question = question.slice(0, -1) : question;
   
   const response = await fetch(process.env.SHEETS_URL + "?sheet=questions", {
     method: 'POST',
@@ -45,9 +44,8 @@ conceptRouter.post('/', async (req, res) => {
     })
   })
   const data = await response.json();
-  console.log("DATA: ", data)
-  req.flash('success', 'Saved')
-  res.redirect('/concepts')
+  req.flash('success', 'Saved');
+  res.redirect('/concepts');
 
 })
 
