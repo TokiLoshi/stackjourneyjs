@@ -188,7 +188,7 @@ document.querySelectorAll('.reviewQuestion').forEach((button) => {
     setClasses(elements.submitButton, ['button-hidden'], ['button-visible']);
     setClasses(elements.reviewButton, ['button-visible'], ['button-hidden']);
     setClasses(elements.closeButton, ['button-hidden'], ['button-visible']);
-    setClasses(elements.concept, ['text-visible', 'text-hidden']);
+    setClasses(elements.concept, ['text-hidden'], ['text-visible']);
   };
 
   button.addEventListener('click', handleReviewButton);

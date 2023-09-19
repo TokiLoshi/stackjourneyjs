@@ -71,7 +71,7 @@ dashboardRouter.get('/', async (req, res) => {
     res.redirect('concepts')
   }
 
-    // ** AFTER *** /
+    // ** TODO *** /
   // Research algorithm to display weighting -> 
   // How to limit search results to a random question out of the array based on weighting
   // Set criteria for weighting 
@@ -188,15 +188,45 @@ dashboardRouter.post('/', async (req, res) => {
   res.redirect('dashboard')
 });
 
-dashboardRouter.put('/', (req, res) => {
+dashboardRouter.put('/', async (req, res) => {
   console.log("Time to edit some notes to a question or a question")
   const editItem = req.body.editKey;
   const notesItem = req.body.notesKey;
   console.log(`Item to edit: ${editItem}, notes: ${notesItem}`);
+
   const { newQuestion, newNotes } = req.body
   console.log(`Updated Question: ${newQuestion}, edited: ${newNotes}`)
 
-  res.send(editItem);
+  // If the question is empty or the notes are empty return error
+  if ( newQuestion.length === 0 || newNotes.length === 0 ){
+    req.flash('error', `Updated fields for your concepts can't be empty`);
+    res.redirect('dashboard');
+  }
+  // If the inputs are the same then we can avoid making a call to the api and return an error
+  else if ( newQuestion === editItem && notesItem === newNotes ){
+    req.flash('error', `It looks like you forgot to make changes`);
+    res.redirect('dashboard');
+  }
+  else {
+  // Else send it to the backend
+  const sheetUpdate = await fetch(`${process.env.SHEETS_URL}/question/${editItem}`, {
+    method: 'PATCH',
+    headers: {
+      'Accept' : 'application/json', 
+      'Content-Type': 'application/json'
+    }, 
+    body: JSON.stringify({
+      sheet: 'questions',
+      data: {
+        'question': newQuestion,
+        'notes': newNotes
+      },
+    })
+  }).then((response) => response.json()).then((data) => console.log(data))
+  }
+
+  req.flash('success', 'updated')
+  res.redirect('/dashboard');
 })
 
 dashboardRouter.delete('/', async (req, res) => {
@@ -218,9 +248,6 @@ dashboardRouter.delete('/', async (req, res) => {
   .then((data) => console.log(data));
   req.flash('success', `Deleted: ${deleteItem}`);
   res.redirect('dashboard')
-})
-
-
-
+});
 
 module.exports = dashboardRouter
