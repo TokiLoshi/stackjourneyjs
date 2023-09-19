@@ -98,7 +98,7 @@
             <div class="card-body">
               <button class="btn btn-light button-hidden close-button">X</button>
               <p class="card-text"><%= key %></p>
-              <p class="card-text text-hidden concept"><%= questions[key] %></p>
+              <pre class="card-text text-hidden concept" style="text-align: justify;"><%= questions[key] %></pre>
               <div class="d-flex justify-content-center">
                 <button type="button" class="btn btn-dark reviewQuestion button-visible">Review</button>
                 <form action="/dashboard?_method=PUT" method="POST">

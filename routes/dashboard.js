@@ -225,7 +225,7 @@ dashboardRouter.put('/', async (req, res) => {
   }).then((response) => response.json()).then((data) => console.log(data))
   }
 
-  req.flash('success', 'updated')
+  req.flash('success', 'Updates successfully saved!')
   res.redirect('/dashboard');
 })
 
